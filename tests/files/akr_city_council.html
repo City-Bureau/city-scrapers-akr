@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="IE=Edge" /> 
+        <title>Meeting Search Results - OnBase Agenda Online</title>
+        <link href="/OnBaseAgendaOnline/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+		
+        <script src="/OnBaseAgendaOnline/Scripts/jquery-2.0.1.js"></script>
+
+        <script src="/OnBaseAgendaOnline/Scripts/jquery-ui-1.10.3.js"></script>
+
+		<script src="/OnBaseAgendaOnline/Scripts/modernizr-2.6.2.js"></script>
+
+		<script src="/OnBaseAgendaOnline/Scripts/bootstrap.min.js"></script>
+		
+		<link href="/OnBaseAgendaOnline/Content/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/OnBaseAgendaOnline/Content/css/dropdown.css" rel="stylesheet"/>
+<link href="/OnBaseAgendaOnline/Content/css/datepicker.min.css" rel="stylesheet"/>
+
+
+        <link href="/OnBaseAgendaOnline/Style?cssFilename=Site.css" rel="stylesheet" />
+    </head>
+<body>
+	<div>
+		
+<div class="logo"></div>
+<img id="img_logo" alt="Logo" src="/OnBaseAgendaOnline/Content/Images/CitySeal-jpg.jpg"/>
+<div class="logo-small"></div>
+	</div>
+	<div class="navbar navbar-inverse" role="navigation">
+		<div class="navbar-header">
+			<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="navbar-collapse collapse navbar-responsive-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/OnBaseAgendaOnline/">Home</a></li>
+				<li><a href="/OnBaseAgendaOnline/Meetings">Meetings</a></li>
+				<!--<li><a href="/OnBaseAgendaOnline/Home/Contact">Contact</a></li>		-->		
+			</ul>
+		</div>
+	</div>
+	<div>
+		
+		<section class="content-wrapper main-content clear-fix">
+			
+
+
+
+
+
+
+	<div class="panel-group">
+		<div class="panel panel-primary">
+			<div class="panel-body" id="searchOptions">
+				<div class="search-header">
+					Search Meeting Content
+				</div>
+
+<form action="/OnBaseAgendaOnline/Meetings" class="form-horizontal" method="post"><input name="__RequestVerificationToken" type="hidden" value="3mUmE0esSiOR17OibjPMmubYU116JnAhasGLTjtEtLRZs9S1rIZGPc-gDgCElHNisjqIsOzPzFQL7xt743hWk6gnFGEXSdSTlaeI2Lu8MD01" />                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="Keywords">Search Text</label>
+                            <div class="col-sm-10">
+								<input class="form-control" id="Keywords" name="Keywords" type="text" value="" />
+							</div>
+						</div>
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="MeetingTypeIDs">Meeting Type</label>
+                            <div class="col-sm-10">
+								<div class="multi-select form-control"
+									 id="MeetingTypeIDs"
+									 name="MeetingTypeIDs"
+									 noselectiontext="Select a Meeting Type"
+									 selectiontext="{0} Items Selected"
+									 checkalltext="Check All"
+									 uncheckalltext="Uncheck All"
+									 nextfocusid="DateRangeOptionID"
+									 selectedvalues="101">
+										<button value="101" style="display: none;">City Council Meeting</button>
+								</div>
+							</div>
+						</div>	
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="DateRangeOptionID">Date Range</label>
+                            <div class="col-sm-10">
+								<select class="form-control single-select" id="DateRangeOptionID" name="DateRangeOptionID"><option value="1">Last Year</option>
+<option value="2">Last Month</option>
+<option value="3">Last Week</option>
+<option value="4">Recent/Upcoming</option>
+<option value="5">This Week</option>
+<option value="6">This Month</option>
+<option value="7">This Year</option>
+<option value="8">Next Week</option>
+<option value="9">Next Month</option>
+<option value="10">Next Year</option>
+<option selected="selected" value="11">Custom Date Range</option>
+</select>
+							</div>
+						</div>
+						<div class="col-sm-2"></div>
+						<div id="divDatePicker" class="col-sm-10 form-group" style="display: none;">
+							<div class="col-lg-10">
+								<input class="input-normal" id="DateRangeCustomStartDate" name="DateRangeCustomStartDate" type="text" value="7/1/2019 12:00:00 AM" />
+								<span class="control-label">-&nbsp;</span>							
+								<input class="input-normal" id="DateRangeCustomEndDate" name="DateRangeCustomEndDate" type="text" value="11/30/2019 11:59:59 PM" /></div>
+						</div>
+					<div class="row form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<input type="submit" value="Search" class="btn btn-primary" />
+						</div>
+					</div>
+</form>
+			</div>
+		</div>
+	</div>
+
+
+<script src="/OnBaseAgendaOnline/Scripts/datepicker.min.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$("#DateRangeOptionID").change(function (e)
+		{
+			showCustomDateRangePicker();
+		});
+
+		datePickerController.createDatePicker(
+		{
+			// Associate the text input to a Local date format
+			formElements: { "DateRangeCustomStartDate": "%n/%j/%Y" }
+		});
+		datePickerController.createDatePicker(
+		{
+			// Associate the text input to a Local date format
+			formElements: { "DateRangeCustomEndDate": "%n/%j/%Y" }
+		});
+
+		showCustomDateRangePicker();
+	})
+
+	function showCustomDateRangePicker()
+	{
+		if ($("#DateRangeOptionID").val() == 11)
+		{
+			$("#divDatePicker").show();
+		}
+		else
+		{
+			$("#divDatePicker").hide();
+		}
+	}
+</script>
+
+
+
+	<div class="header">Meeting Search Results</div>
+	<div id="divResults">
+		
+
+
+<script type="text/javascript">		
+	var localeSortableStrings =
+	{
+		FILTER_MENU_ALL:	'All',
+		COUNT_LABEL:		'Showing {0} Meeting(s)',
+	};
+</script>
+<div id="meetings-list">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				
+				
+				<th class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">
+					<div><a href="#" data-sortable-label="1">Meeting Name</a><span id="chevron"></span></div>
+				</th>
+				<th class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">
+					<div><a href="#" data-sortable-label="1">Meeting Type</a><span id="chevron"></span></div>
+				</th>
+				<th class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-numeric="true" data-sortable-order="dec">
+					<div><a href="#" data-sortable-label="1">Meeting Date</a><span id="chevron"></span></div>
+				</th>
+				
+				<th class="hidden-xs hidden-md hidden-lg visible-sm">
+					Meeting Info
+					<div>&nbsp;</div>
+				</th>
+				
+				<th class="hidden-sm hidden-md hidden-lg visible-xs">
+					Meeting Info
+					<div>&nbsp;</div>
+				</th>
+				
+				<th class="hidden-xs visible-sm visible-md visible-lg">
+					Links
+					<div>&nbsp;</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+					<tr id="meeting-263-row" class="meeting-row" data-meeting-id="263">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">September 23, 2019</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="9/23/2019" data-sortable-data="1569279600">9/23/2019 7:00:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							September 23, 2019
+							<br />
+							City Council Meeting
+							<br />
+							9/23/2019 7:00:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							September 23, 2019
+							<br />
+							City Council Meeting
+							<br />
+							9/23/2019 7:00:00 PM
+							<br />
+							
+							
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+							
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-262-row" class="meeting-row" data-meeting-id="262">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">September 16, 2019</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="9/16/2019" data-sortable-data="1568674800">9/16/2019 7:00:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							September 16, 2019
+							<br />
+							City Council Meeting
+							<br />
+							9/16/2019 7:00:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							September 16, 2019
+							<br />
+							City Council Meeting
+							<br />
+							9/16/2019 7:00:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=262&amp;doctype=1"
+				title="View Agenda for September 16, 2019 City Council Meeting on 9/16/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/September_16%2c_2019_262_Agenda_9_16_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=262" target="_blank"
+				title="Download Agenda for September 16, 2019 City Council Meeting on 9/16/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=262&amp;doctype=1"
+				title="View Agenda for September 16, 2019 City Council Meeting on 9/16/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/September_16%2c_2019_262_Agenda_9_16_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=262" target="_blank"
+				title="Download Agenda for September 16, 2019 City Council Meeting on 9/16/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-261-row" class="meeting-row" data-meeting-id="261">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">September 9, 2019</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="9/9/2019" data-sortable-data="1568070000">9/9/2019 7:00:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							September 9, 2019
+							<br />
+							City Council Meeting
+							<br />
+							9/9/2019 7:00:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							September 9, 2019
+							<br />
+							City Council Meeting
+							<br />
+							9/9/2019 7:00:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=261&amp;doctype=1"
+				title="View Agenda for September 9, 2019 City Council Meeting on 9/9/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/September_9%2c_2019_261_Agenda_9_9_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=261" target="_blank"
+				title="Download Agenda for September 9, 2019 City Council Meeting on 9/9/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=261&amp;doctype=1"
+				title="View Agenda for September 9, 2019 City Council Meeting on 9/9/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/September_9%2c_2019_261_Agenda_9_9_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=261" target="_blank"
+				title="Download Agenda for September 9, 2019 City Council Meeting on 9/9/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-260-row" class="meeting-row" data-meeting-id="260">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">July 29, 2019</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="7/29/2019" data-sortable-data="1564441200">7/29/2019 7:00:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							July 29, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/29/2019 7:00:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							July 29, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/29/2019 7:00:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=260&amp;doctype=1"
+				title="View Agenda for July 29, 2019 City Council Meeting on 7/29/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_29%2c_2019_260_Agenda_7_29_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=260" target="_blank"
+				title="Download Agenda for July 29, 2019 City Council Meeting on 7/29/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=260&amp;doctype=1"
+				title="View Agenda for July 29, 2019 City Council Meeting on 7/29/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_29%2c_2019_260_Agenda_7_29_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=260" target="_blank"
+				title="Download Agenda for July 29, 2019 City Council Meeting on 7/29/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-259-row" class="meeting-row" data-meeting-id="259">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">July 22, 2019</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="7/22/2019" data-sortable-data="1563836400">7/22/2019 7:00:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							July 22, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/22/2019 7:00:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							July 22, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/22/2019 7:00:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=259&amp;doctype=1"
+				title="View Agenda for July 22, 2019 City Council Meeting on 7/22/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_22%2c_2019_259_Agenda_7_22_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=259" target="_blank"
+				title="Download Agenda for July 22, 2019 City Council Meeting on 7/22/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=259&amp;doctype=1"
+				title="View Agenda for July 22, 2019 City Council Meeting on 7/22/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_22%2c_2019_259_Agenda_7_22_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=259" target="_blank"
+				title="Download Agenda for July 22, 2019 City Council Meeting on 7/22/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-258-row" class="meeting-row" data-meeting-id="258">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">July 15, 2019</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="7/15/2019" data-sortable-data="1563231600">7/15/2019 7:00:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							July 15, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/15/2019 7:00:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							July 15, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/15/2019 7:00:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=258&amp;doctype=1"
+				title="View Agenda for July 15, 2019 City Council Meeting on 7/15/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_15%2c_2019_258_Agenda_7_15_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=258" target="_blank"
+				title="Download Agenda for July 15, 2019 City Council Meeting on 7/15/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=258&amp;doctype=1"
+				title="View Agenda for July 15, 2019 City Council Meeting on 7/15/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_15%2c_2019_258_Agenda_7_15_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=258" target="_blank"
+				title="Download Agenda for July 15, 2019 City Council Meeting on 7/15/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-257-row" class="meeting-row" data-meeting-id="257">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">July 8, 2019</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="7/8/2019" data-sortable-data="1562626800">7/8/2019 7:00:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							July 8, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/8/2019 7:00:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							July 8, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/8/2019 7:00:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=257&amp;doctype=1"
+				title="View Agenda for July 8, 2019 City Council Meeting on 7/8/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_8%2c_2019_257_Agenda_7_8_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=257" target="_blank"
+				title="Download Agenda for July 8, 2019 City Council Meeting on 7/8/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=257&amp;doctype=1"
+				title="View Agenda for July 8, 2019 City Council Meeting on 7/8/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_8%2c_2019_257_Agenda_7_8_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=257" target="_blank"
+				title="Download Agenda for July 8, 2019 City Council Meeting on 7/8/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-256-row" class="meeting-row" data-meeting-id="256">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">July 1, 2019</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="7/1/2019" data-sortable-data="1562022000">7/1/2019 7:00:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							July 1, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/1/2019 7:00:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							July 1, 2019
+							<br />
+							City Council Meeting
+							<br />
+							7/1/2019 7:00:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=256&amp;doctype=1"
+				title="View Agenda for July 1, 2019 City Council Meeting on 7/1/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_1%2c_2019_256_Agenda_7_1_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=256" target="_blank"
+				title="Download Agenda for July 1, 2019 City Council Meeting on 7/1/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=256&amp;doctype=1"
+				title="View Agenda for July 1, 2019 City Council Meeting on 7/1/2019 7:00:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/July_1%2c_2019_256_Agenda_7_1_2019_7_00_00_PM.pdf?documentType=1&amp;meetingId=256" target="_blank"
+				title="Download Agenda for July 1, 2019 City Council Meeting on 7/1/2019 7:00:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+			<tr>
+				<td colspan="4">
+					<span class="results-footer">
+						<span id="footer-results-count">Showing 8 Meeting(s)</span>
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div id="footer-results-message">
+	</div>
+</div>
+
+<script type="text/javascript" src="/OnBaseAgendaOnline/Scripts/meetinglistsort.js"></script>
+
+
+
+
+
+	</div>
+	<div class="post-meeting-grid-spacer">
+		&nbsp;
+	</div>
+
+		</section>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 no-padding-left">
+					<img src="/OnBaseAgendaOnline/Images/Powered_By_OnBase.png" class="onbase-logo" />
+					&#169; 2019 - Hyland Software
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/OnBaseAgendaOnline/Scripts/dropdown.js"></script>
+
+
+</body>
+</html>
