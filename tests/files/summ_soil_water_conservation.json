@@ -1,0 +1,79 @@
+{
+ "kind": "calendar#events",
+ "etag": "\"p328c54lgqn9u80g\"",
+ "summary": "staffsummitswcd@gmail.com",
+ "updated": "2019-09-15T20:28:54.218Z",
+ "timeZone": "America/New_York",
+ "accessRole": "reader",
+ "defaultReminders": [],
+ "nextSyncToken": "CJDCkrDV0-QCEAAYAQ==",
+ "items": [
+  {
+   "kind": "calendar#event",
+   "etag": "\"3092876723266000\"",
+   "id": "1l54d96tafahe5ar7v8uuor0gl",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MWw1NGQ5NnRhZmFoZTVhcjd2OHV1b3IwZ2wgc3RhZmZzdW1taXRzd2NkQG0&ctz=America/New_York",
+   "created": "2019-01-02T14:11:13.000Z",
+   "updated": "2019-01-02T14:12:41.633Z",
+   "summary": "Summit SWCD Board Meeting",
+   "description": "Summit Soil &amp; Water Conservation District Annual Meeting",
+   "location": "Coventry Oaks Pavilion - Firestone Metro Park, 40 Axline Ave, Akron, OH 44319, USA",
+   "creator": {
+    "email": "staffsummitswcd@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "staffsummitswcd@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2019-10-22T10:00:00-04:00"
+   },
+   "end": {
+    "dateTime": "2019-10-22T12:00:00-04:00"
+   },
+   "transparency": "transparent",
+   "iCalUID": "1l54d96tafahe5ar7v8uuor0gl@google.com",
+   "sequence": 1,
+   "extendedProperties": {
+    "private": {
+     "everyoneDeclinedDismissed": "-1"
+    }
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3094962956438000\"",
+   "id": "5lpe9e2l3l9lks8en7821il347",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NWxwZTllMmwzbDlsa3M4ZW43ODIxaWwzNDcgc3RhZmZzdW1taXRzd2NkQG0&ctz=America/New_York",
+   "created": "2019-01-14T15:57:58.000Z",
+   "updated": "2019-01-14T15:57:58.219Z",
+   "summary": "Summit SWCD Office Closed",
+   "description": "Observance of Columbus Day",
+   "creator": {
+    "email": "staffsummitswcd@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "staffsummitswcd@gmail.com",
+    "self": true
+   },
+   "start": {
+    "date": "2019-10-14"
+   },
+   "end": {
+    "date": "2019-10-15"
+   },
+   "transparency": "transparent",
+   "iCalUID": "5lpe9e2l3l9lks8en7821il347@google.com",
+   "sequence": 0,
+   "extendedProperties": {
+    "private": {
+     "everyoneDeclinedDismissed": "-1"
+    }
+   }
+  }
+ ]
+}
