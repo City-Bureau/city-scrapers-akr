@@ -1,0 +1,552 @@
+Delivered-To: documenters@citybureau.org
+Received: by 2002:ac0:b517:0:0:0:0:0 with SMTP id q23csp938547ime;
+        Thu, 3 Oct 2019 13:28:00 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzfvePhQHBZzNNEHV/galpeS9M7Xj4vFR0B6YNjn0DKSWJX1UPIg4uAKALDfGFagYhZnG8n
+X-Received: by 2002:a37:a7c5:: with SMTP id q188mr6157293qke.445.1570134480523;
+        Thu, 03 Oct 2019 13:28:00 -0700 (PDT)
+Return-Path: <0100016d934ed2c0-4f969c63-8f9f-4a5a-8f5a-bf7f51191db5-000000@amazonses.com>
+Received: from a8-26.smtp-out.amazonses.com (a8-26.smtp-out.amazonses.com. [54.240.8.26])
+        by mx.google.com with ESMTPS id m9si3684984qvh.13.2019.10.03.13.28.00
+        for <documenters@citybureau.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 03 Oct 2019 13:28:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 0100016d934ed2c0-4f969c63-8f9f-4a5a-8f5a-bf7f51191db5-000000@amazonses.com designates 54.240.8.26 as permitted sender) client-ip=54.240.8.26;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@documenters.org header.s=lq5pi6x23koqh6yriccnnfnuq5lbjckm header.b=Q+YrP5ph;
+       dkim=pass header.i=@amazonses.com header.s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw header.b=DXyf2t4d;
+       arc=fail (signature failed);
+       spf=pass (google.com: domain of 0100016d934ed2c0-4f969c63-8f9f-4a5a-8f5a-bf7f51191db5-000000@amazonses.com designates 54.240.8.26 as permitted sender) smtp.mailfrom=0100016d934ed2c0-4f969c63-8f9f-4a5a-8f5a-bf7f51191db5-000000@amazonses.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lq5pi6x23koqh6yriccnnfnuq5lbjckm; d=documenters.org;
+	t=1570134480;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version:Reply-To;
+	bh=W/c3xq8d6TkCQVrYbvnwLFol7pKqFnQbPWm9jLu1pTE=;
+	b=Q+YrP5ph+K1KuccZ7L/pm5pbqEkJd1XZUtZMkOz+r/EaV+ghVfyRFSkUYwf6PCXJ
+	Y/w3s7tnfQqKgMTg8YTZeF2vkQjvVR18oT5DhO/gOaLv6zHvZHkg9Um3EUg74nybTvv
+	JK8Z9pyjiqX0RskFttkKU1JnL6hQlkPq038oicEs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1570134480;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version:Reply-To:Feedback-ID;
+	bh=W/c3xq8d6TkCQVrYbvnwLFol7pKqFnQbPWm9jLu1pTE=;
+	b=DXyf2t4dRAbbltZ4Brt3W1is1L/IDMNK65FRNeHyZDSKjnr9bxhBbtwr9gc72ZKz
+	v0HeJopeGA+/W0Eiq2xV+Cp9wWgIs3dlhaXScO0/XnQAJSD0wvlT6weMI0R0AdFgiGy
+	HLQRJ/xxX6bO3m8KZPs46PknBwg4S+oqjISum6IA=
+Received-SPF: pass (spfCheck: domain of akroncantonairport.com designates 66.35.16.154 as permitted sender) client-ip=66.35.16.154; envelope-from=prvs=1179cbab2d=gshrock@akroncantonairport.com; helo=gw16154.fortimail.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of akroncantonairport.com designates 66.35.16.154 as permitted sender) client-ip=66.35.16.154; envelope-from=prvs=1179cbab2d=gshrock@akroncantonairport.com; helo=gw16154.fortimail.com;
+ dkim=pass header.i=@akroncantonairport.onmicrosoft.com;
+ dmarc=none header.from=akroncantonairport.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFGYk1KZFRNZ0E3c1ZUcTJHbEVXTWNCOCtDcExrMVprUFFLN29Ld1B4Q2R0bE53cEV6VnU1LzE5eC9DcW5kYnk4ZXNoM2Jac0RXTjZMVmNtVHlCOWxYVkp4TkFtYmlBcStKT1RUQkwxNWcxM3VBUUpMVVR5Zm5Fc25iWFJ0UTQxZkxWRUtZeGVxZHhtMnhzQUJvM2QyQUVpVjBGbEdZMGx3NkcrdVNrdUwvb3h5WFNWYXRMZXdOL0UyenFmVENkbndqSGFFWGsvUTNIYTdXUTBvWDhnd0pzNnhORUlySzZtVWtWa0VQUERtNm9IQkdxdjM0WGZydGhpaUtMN0doQ2o0T2x5L0UwTUpYek5HQ2hyU2tISUYrK2lKUjhxYkRsWmRFK0sxcWZxMkRjUzMwbEE0MTUxR3oyaWRibGp6a2pkVEU2N3hnQ0cyblZSM28zbk5QY3pnSTc=
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=hBe1U0f+7LfDk9TlbYx24qGqC8BGCdeXa55NRQcX7I4cpO8rXb4eAarlJfi0QjE9fKK7M2kUSzYiUg7jDrlrcaci2A9UvMw7mfTnPYk1TBJKYaXaFDoY6eT772XIqpApDgCHI1VMJTLKy/4+zfZc6S9N26hYuBlrdr5DlVndOxg=; c=relaxed/simple; s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1570134475; v=1; bh=W/c3xq8d6TkCQVrYbvnwLFol7pKqFnQbPWm9jLu1pTE=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XuxSJ3lYeBFMZkND034VD8uVhyebn134aITLqxMYi8uyXfUwYbG1VcDfT9jLw+40UlDsjGSlb5LI0VfbX7/yL95eQaspAq7BbkUz6NpYt3atX1/nyBdU6qMLu3ToSpbjbNhLHylxzGEynfNG34LGeN0+Z/iHLf/wi1DOGabVMELCxoFJr8B7HIcWg/8KQ03tuusL7hsuIPiNMVCIArCYOes73hSey0wfW/y5sH/GTkBrzN9EXDnFmHRAAkK/Gnxj4We7lwBXRP4QFLZxKegfdpDV7yW1/2x7/8XIsogbLFV2oPjxoEmbDfOCMAsIvYMfk95jCI4ZlJcho+D/UfVwMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zntUKmL721ZpGzMl0SZOQoPCrbQJC+MktXW05GzHhys=;
+ b=c5IQ3Y1HzIY5Zv4w5xFOm/93Way/XYpD30HbKl2suaEed2HvP4Cq2/fziYEKvLlbS3MVUrwMQSkeSZuZP/I7G6nVECdKsOXc2PXSeK3WDGFfwmluYVZ5WqVBN9fRYmXPWgbSu+X1KOU86PWtGL6XWTNSo81uMLUmLSHtSaSgW6MQ1ep4yOy+rVFfBLB9G1Bxxa28A4WBH5920BO/9WWfTCm0z+cs70AkVvoNT4Iyo1vZac2HLLq5k9v/Jc6FtyzevzmbGkugIwxOeu24sPRmnodcIfqGJrDhrfkhl/h9v/hDy9TVvNGXVh/sUR/n6gDprnuOSmmM/CVtqd9Hv7/B8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=akroncantonairport.com; dmarc=pass action=none
+ header.from=akroncantonairport.com; dkim=pass
+ header.d=akroncantonairport.com; arc=none
+From: Gretchen Shrock <mailer@documenters.org>
+To: "notice@documenters.org" <notice@documenters.org>
+Subject: Board Meetings
+Thread-Topic: Board Meetings
+Thread-Index: AdV6KJre33TonPI4QL20BO7xv9q9NQ==
+Date: Thu, 3 Oct 2019 20:27:59 +0000
+Message-ID: <0100016d934ed2c0-4f969c63-8f9f-4a5a-8f5a-bf7f51191db5-000000@email.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+Authentication-Results: gw16154.fortimail.com;
+	dkim=pass header.i=@akroncantonairport.onmicrosoft.com
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=gshrock@akroncantonairport.com; 
+x-originating-ip: [99.51.202.155]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 56643c50-2e52-4617-4e9d-08d748402986
+x-ms-traffictypediagnostic: DM5PR2001MB0970:
+x-ms-exchange-purlcount: 6
+x-microsoft-antispam-prvs:
+ <DM5PR2001MB097061C506F40EB8529F9A48DF9F0@DM5PR2001MB0970.namprd20.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 01792087B6
+x-forefront-antispam-report:
+ SFV:NSPM;SFS:(10009020)(346002)(366004)(199004)(189003)(476003)(8676002)(14454004)(99286004)(861006)(7116003)(606006)(6306002)(2501003)(14444005)(8936002)(7736002)(54896002)(5660300002)(221733001)(66066001)(52536014)(9686003)(2351001)(74316002)(99936001)(81156014)(256004)(2906002)(25786009)(55016002)(6916009)(3480700005)(6116002)(186003)(790700001)(486006)(66446008)(81166006)(26005)(1730700003)(6436002)(86362001)(76116006)(66556008)(64756008)(66476007)(33656002)(71200400001)(236005)(7696005)(508600001)(71190400001)(733005)(6506007)(66576008)(5640700003)(66946007)(3846002)(102836004)(4744005);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR2001MB0970;H:DM5PR2001MB1724.namprd20.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: akroncantonairport.com does not
+ designate permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ n2/OTatS/NYKGvRWIeSdx0Q9jR1LajJV+BjqogNGioM4uKCbPNoz7xiLbYjm4uTO4u7nmESifSntrGoMowqipmZdWCO70RavN+N4nsyhKMr7Y3QmHH87AvPjBkDwfWjTJYmF3wERovB1tK5nb8OxbxPGBhP0mr2NMN+C953/sJJ4XeAfSsNuHr3ztQXnvJLsHkxEiJQvF14i3H7fmlbWMeCBKLF2utj4sQZ+e/e776xBQH10T/hg9i//JcWX5OM2Gf9tb+iw7FzSgSjuw2btItWoiFJ6jAQbosLFPvX4+pTUFzmu8N23HW1bph4kjoR7++HIEHheyz6vwqa3qZ0Ag/DaYA2xiV6UKqlW9XJKcKaTAVss44aZkJf1rEnpgAFaCTpOK8t8bgJHj5dMN5WaBR1d8atJxPeihkTkLTQ0UfE+tlmunLfOBa47Gb2102ul3mCeMCgbi8Gt60JIKPg8uw==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/related;
+	boundary="_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_";
+	type="multipart/alternative"
+MIME-Version: 1.0
+X-OriginatorOrg: akroncantonairport.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56643c50-2e52-4617-4e9d-08d748402986
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2019 20:27:50.6249
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: cccf8f85-acc4-40b7-860b-2ba927e28340
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6nPQi92N/QLcN2xeDlxQO7q+Z7kaepUNyajEuG2yJ++AfNA4QQcnGQP0u7ORqetZdB3smzdRJRAtbtFK6gNYDtiTU4ngW6Qk9NAcVUvOplU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2001MB0970
+X-FEAS-DKIM: Valid
+Reply-To: Gretchen Shrock <gshrock@akroncantonairport.com>
+X-SES-Outgoing: 2019.10.03-54.240.8.26
+Feedback-ID: 1.us-east-1.GEWSP/5dqRgr5lZ13MJ+rVD6giZBdm6u1XR8WcRxnhA=:AmazonSES
+
+--_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: multipart/alternative;
+	boundary="_000_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_"
+
+--_000_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Good afternoon ~  In response to your request, below are the dates of the r=
+emaining Airport Authority Board Meetings for 2019:
+
+Third Thursday of the month:
+October 17th
+November 21st
+December 19th
+
+Best regards,
+Gretchen
+[Logo]<https://www.akroncantonairport.com/>
+Gretchen Shrock
+Executive Assistant to Renato Camacho
+phone: 330.499.4059
+email: gshrock@akroncantonairport.com <mailto:gshrock@akroncantonairport.co=
+m%20@akroncantonairport.com>
+5400 Lauby Rd. NW #9
+North Canton, Ohio 44720
+[Facebook icon]<https://www.facebook.com/akroncantonairport/>  [LinkedIn ic=
+on] <https://www.linkedin.com/company/akron-canton-airport/>   [Twitter ico=
+n] <https://twitter.com/CAKairport?lang=3Den>   [Youtbue icon] <https://www=
+.youtube.com/channel/UCQIMuBjgGLURPbZS-3RGzKg?view_as=3Dsubscriber>   [Inst=
+agram icon] <https://www.instagram.com/cakairport/>
+
+
+
+--_000_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Good afternoon ~&nbsp; In response to your request, =
+below are the dates of the remaining Airport Authority Board Meetings for 2=
+019:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Third Thursday of the month:<o:p></o:p></p>
+<p class=3D"MsoNormal">October 17<sup>th</sup> <o:p></o:p></p>
+<p class=3D"MsoNormal">November 21<sup>st</sup> <o:p></o:p></p>
+<p class=3D"MsoNormal">December 19<sup>th</sup> <o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Best regards,<o:p></o:p></p>
+<p class=3D"MsoNormal">Gretchen <o:p></o:p></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"480" style=3D"width:5.0in;background:white;border-collapse:=
+collapse">
+<tbody>
+<tr>
+<td width=3D"160" valign=3D"top" style=3D"width:120.0pt;padding:7.5pt 0in 9=
+.0pt 0in">
+<p class=3D"MsoNormal"><a href=3D"https://www.akroncantonairport.com/" targ=
+et=3D"_blank"><span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;=
+,sans-serif;color:#337AB7;text-decoration:none"><img border=3D"0" width=3D"=
+141" height=3D"164" style=3D"width:1.4687in;height:1.7083in" id=3D"Picture_=
+x0020_1" src=3D"cid:image001.jpg@01D57A07.7F003F20" alt=3D"Logo"></span></a=
+><span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;c=
+olor:#444444"><o:p></o:p></span></p>
+</td>
+<td width=3D"320" style=3D"width:240.0pt;padding:4.5pt 0in 4.5pt 0in">
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"border-collapse:collapse">
+<tbody>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:12.0pt;font-family:&quot=
+;Arial&quot;,sans-serif;color:#3D3C3F">Gretchen Shrock<o:p></o:p></span></b=
+></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0in 0in 8.25pt 0in">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif;color:#3D3C3F">Executive Assistant to Renato Camacho<o=
+:p></o:p></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif;color:#9B9B9B">phone: 330.499.4059<o:p></o:p></span></=
+p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif;color:#9B9B9B">email:&nbsp;</span><span style=3D"color=
+:#0041E6"><a href=3D"mailto:gshrock@akroncantonairport.com%20@akroncantonai=
+rport.com"><span style=3D"color:#0563C1">gshrock@akroncantonairport.com
+</span></a></span><span style=3D"font-size:10.0pt;font-family:&quot;Arial&q=
+uot;,sans-serif;color:#9B9B9B"><o:p></o:p></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif;color:#9B9B9B">5400 Lauby Rd. NW #9<o:p></o:p></span><=
+/p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,sans-serif;color:#9B9B9B">North Canton, Ohio 44720<o:p></o:p></sp=
+an></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:4.5pt 0in 0in 0in">
+<p class=3D"MsoNormal"><a href=3D"https://www.facebook.com/akroncantonairpo=
+rt/" target=3D"_blank"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
+mes New Roman&quot;,serif;color:#337AB7;text-decoration:none"><img border=
+=3D"0" width=3D"23" height=3D"23" style=3D"width:.2395in;height:.2395in" id=
+=3D"Picture_x0020_2" src=3D"cid:image002.jpg@01D57A07.7F003F20" alt=3D"Face=
+book icon"></span></a><span style=3D"font-size:12.0pt;font-family:&quot;Tim=
+es New Roman&quot;,serif">&nbsp;&nbsp;</span><a href=3D"https://www.linkedi=
+n.com/company/akron-canton-airport/" target=3D"_blank"><span style=3D"font-=
+size:12.0pt;font-family:&quot;Times New Roman&quot;,serif;color:#337AB7;tex=
+t-decoration:none"><img border=3D"0" width=3D"23" height=3D"23" style=3D"wi=
+dth:.2395in;height:.2395in" id=3D"Picture_x0020_3" src=3D"cid:image003.jpg@=
+01D57A07.7F003F20" alt=3D"LinkedIn icon"></span></a><span style=3D"font-siz=
+e:12.0pt;font-family:&quot;Times New Roman&quot;,serif">&nbsp;&nbsp;</span>=
+<a href=3D"https://twitter.com/CAKairport?lang=3Den" target=3D"_blank"><spa=
+n style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,serif;c=
+olor:#337AB7;text-decoration:none"><img border=3D"0" width=3D"23" height=3D=
+"23" style=3D"width:.2395in;height:.2395in" id=3D"Picture_x0020_4" src=3D"c=
+id:image004.jpg@01D57A07.7F003F20" alt=3D"Twitter icon"></span></a><span st=
+yle=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,serif">&nbs=
+p;&nbsp;</span><a href=3D"https://www.youtube.com/channel/UCQIMuBjgGLURPbZS=
+-3RGzKg?view_as=3Dsubscriber" target=3D"_blank"><span style=3D"font-size:12=
+.0pt;font-family:&quot;Times New Roman&quot;,serif;color:#337AB7;text-decor=
+ation:none"><img border=3D"0" width=3D"23" height=3D"23" style=3D"width:.23=
+95in;height:.2395in" id=3D"Picture_x0020_5" src=3D"cid:image005.jpg@01D57A0=
+7.7F003F20" alt=3D"Youtbue icon"></span></a><span style=3D"font-size:12.0pt=
+;font-family:&quot;Times New Roman&quot;,serif">&nbsp;&nbsp;</span><a href=
+=3D"https://www.instagram.com/cakairport/" target=3D"_blank"><span style=3D=
+"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,serif;color:#337A=
+B7;text-decoration:none"><img border=3D"0" width=3D"23" height=3D"23" style=
+=3D"width:.2395in;height:.2395in" id=3D"Picture_x0020_6" src=3D"cid:image00=
+6.png@01D57A07.7F003F20" alt=3D"Instagram icon"></span></a><span style=3D"f=
+ont-size:12.0pt;font-family:&quot;Times New Roman&quot;,serif"><o:p></o:p><=
+/span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_--
+
+--_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: image/jpeg; name="image001.jpg"
+Content-Description: image001.jpg
+Content-Disposition: inline; filename="image001.jpg"; size=5211;
+	creation-date="Thu, 03 Oct 2019 20:27:50 GMT";
+	modification-date="Thu, 03 Oct 2019 20:27:50 GMT"
+Content-ID: <image001.jpg@01D57A07.7F003F20>
+Content-Transfer-Encoding: base64
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIf
+IiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7
+Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCACkAI0DASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2aiii
+gAooooAKKKKACkzQTWXf6zHb5jt8SSdz/CP8aANGWaOFC8rhF9SaybnX1X5baPf/ALTcCsxUvNUn
+J+aQ9yfurWxaaHBEA0/71/T+GgDLN7qN4cK8hz2jGBR/ZOoSctEf+BMM106Isa7UUKPQDFLigDlG
+h1Cw+YiWIeqnIrX0rVftR8mfAlAyCOjVqFQQQQCD1Brnru1FhqsEkPCO4IHpzzQB0NLSCloAKKKK
+ACiiigAooooAKY8ixoXdgqjqT2pJZUhjaSRgqr1JrmtQ1GS+l2rkRA/Knc/WgCXUdYe5zHASkPc9
+2pdP0Z58S3OUj7KOrVa0zSBFtnuRmTqqHnb9feuY8W/EC80LXG06yt4JVjQF2kJyGPOOPatKdOVS
+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
+AxvhZ/yTnSf+ubf+hGuuoooAKKKKAP/Z
+
+--_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: image/jpeg; name="image002.jpg"
+Content-Description: image002.jpg
+Content-Disposition: inline; filename="image002.jpg"; size=793;
+	creation-date="Thu, 03 Oct 2019 20:27:50 GMT";
+	modification-date="Thu, 03 Oct 2019 20:27:50 GMT"
+Content-ID: <image002.jpg@01D57A07.7F003F20>
+Content-Transfer-Encoding: base64
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIf
+IiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7
+Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAXABcDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDj7q6m
+vbmS6upTJLIdzu3Umtk+FTD4cTWbzUbeDz1LW9u33pBWCrKjqzLvVTkqe49K9G8YarpzeDtIH9kR
+brm3/cHP/Hv9KYHM+Br25s/EsJglaPfG4YDoeO9FQeD/APkZLfv8j/8AoNFAGbqNhPpt/PY3IUTQ
+ttcKcj86sX+tXeo6fZWVxs8qyXbFtGDj3oooA1fAOmXGo+JYzCF2xRuXJPTIwKKKKAP/2Q==
+
+--_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: image/jpeg; name="image003.jpg"
+Content-Description: image003.jpg
+Content-Disposition: inline; filename="image003.jpg"; size=805;
+	creation-date="Thu, 03 Oct 2019 20:27:50 GMT";
+	modification-date="Thu, 03 Oct 2019 20:27:50 GMT"
+Content-ID: <image003.jpg@01D57A07.7F003F20>
+Content-Transfer-Encoding: base64
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIf
+IiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7
+Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAXABcDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDn4Lef
+xJ4heO4vo4ZZyzNPOflGO1ZcqeXM8e4MUYjco4b3FdN4CgiuPHEMc0ayoUlJVhkfdrpftcWj6Fok
+sNhaySXV+0LtJGCQu45xTA4zwlf3Vhr0cltM0ZKMDjvx3orY1myg0/4kT29tGI4ipcIvQErk0UAc
+7fQ32ga3PD5phuYGK74m7fWqzX928ccb3UrJE29FLcK3qPeiigDc8J2d/wCIPEqt5pllEbF5JG5x
+jiiiigD/2Q==
+
+--_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: image/jpeg; name="image004.jpg"
+Content-Description: image004.jpg
+Content-Disposition: inline; filename="image004.jpg"; size=800;
+	creation-date="Thu, 03 Oct 2019 20:27:50 GMT";
+	modification-date="Thu, 03 Oct 2019 20:27:50 GMT"
+Content-ID: <image004.jpg@01D57A07.7F003F20>
+Content-Transfer-Encoding: base64
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIf
+IiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7
+Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAXABcDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDmNSkv
+NT1q6kfzLidnZjgZOB1/AUmk6LqOuSvHpts1w0a5bBxir+i6kmk+M4ryVC0azFXC+h6/Wva4YdI0
+e2n1KGKG1ilXzJZFG3d9aYHiWiyaloPiFVHmWlwEIZSMHGO4ook1H+1fFtzqGSRPI7LnsO1FAFfV
+oLzRPEFzGX8q4ikOHQ5x6VFfa3qupRiO+1G4uIx0R34/KiigC54U0m51jWlgtQu5UZiWOO1FFFAH
+/9k=
+
+--_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: image/jpeg; name="image005.jpg"
+Content-Description: image005.jpg
+Content-Disposition: inline; filename="image005.jpg"; size=789;
+	creation-date="Thu, 03 Oct 2019 20:27:50 GMT";
+	modification-date="Thu, 03 Oct 2019 20:27:50 GMT"
+Content-ID: <image005.jpg@01D57A07.7F003F20>
+Content-Transfer-Encoding: base64
+
+/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIf
+IiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7
+Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAXABcDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDmtZuJ
+tQ8QXUlzMWd5ipZuw7D6VJd+HNStZ1i8nzd3Rk6ZxnFIbeO78TtbyuyLJcFdyjJB7V00Ta2I45Io
+4ZGNy3kqzYLA8ZpgcnpF/d6XqAntJmhlAKkr+oopj28tpqktvOAJY3YOAcjPeigC3rltdaL4nuUf
+as0UxdSDkexpB4l1QRxoJkxGcqdnIPrRRQA7RtNvfEeuNHDsM0gaRiTgUUUUAf/Z
+
+--_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_
+Content-Type: image/png; name="image006.png"
+Content-Description: image006.png
+Content-Disposition: inline; filename="image006.png"; size=1113;
+	creation-date="Thu, 03 Oct 2019 20:27:50 GMT";
+	modification-date="Thu, 03 Oct 2019 20:27:50 GMT"
+Content-ID: <image006.png@01D57A07.7F003F20>
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAO
+xAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUATWljcm9zb2Z0IE9mZmljZX/tNXEAAAPZSURBVEhL
+pVVNaFRXFD7n3DtjE2ZCCWnQTjQ7QaQkhRaLpYuoCCKailBwUSi46N5tV9kKhe5KN8VdEaxYBReF
+RhelLiNpcCEIEhv6q1XijMR37zn9zpsZeTOOFfSGDO+9e+53vvOdnxuXlpZoeXn5gCb7gpgXGMvM
+6FUWjhLO/oXfr9tP2mfj8rVru83kcwn8nmp+ZWAn45xEZJJUF8fHGxw158P49EEIcUJ1kK8zedka
+jNLcQYQCc3iYiaqyW4REh5AdGCw8TOAz/irLX/w7bPxc1YE/u7RYU3EUs552Hch0E7briKwATJkI
+I2F2n6o1vM7ifx7248MO3DZiA2J0E+ig/p+zboDcRWO9ha0tIUaAJG4CplkQPQzreGzgxApcHZcQ
+dg5HP8C8x/gxMC4B6iIgjng+jG0CzhpQoBaYn4D2I+CvQ7afUQjf5aReCJ/ivVl18Ay8nzwcXA3E
+v6raYZb4WYgynVJyzf8Qpk2ATkKqaWjzkE13oMDeD4HvwPEqBPuwR7BU4jnNzXidxTqktA9MpsGo
+QNhXwf57MdkQ4V2JbIFIZ6HNPPYeg+1PZHKvL28/j8+BQ/ItAIMET2ZN2ZiuWOTzotxS4oPI66qJ
+XYaj48jUMUh3V1iu4LkDYmXKXwgOJllJM1FoIvx/WPSSqbSQuDOxHmdSkTYoyVcW6TpAHBxNw1vQ
+rfC2qDb3yFL0AoeedRzYFNINHD4Y67UZL7dYi62sxRyq51vO+gAR1gmMvf+8nKprFDgai2rQpTCl
+JhRqqchNMD7kwEWRfofTFRx8GzXfQILbXcBSk/8H974TNB1otFl4FnPnYwp2Ho6+TE+fziMbq2in
+30z5E2KbAtqfGjNzDmitl4B7mE5Bhf+NIQSU5rGcUiCxC5nkHGRqRZZTUO4oNA65yA8tSMSZsXJG
+VBwMytJt8F0Uwza09y+Z0h7gv4VuXMSkQWnaJvCakGJ7t5Pz32ifG5x5nK0cBaNlKWdDCc7vZNO9
+GAoXfMZl0n34OIX9JgzegAk6lNZyTg+wfSMEuZqznUSZzgk2qjNmgLl2J1pDWBdRy4ZxsoZOvSWR
+BE2KQeWTEpnzO8GbNhoqRU9CjRPo2IHWd5oRnlAY/Wi6nlGIM0joabytsMldJK8IrD0rCIBugfNt
++NmJaN+F/djw0CrBh3Xyd7D1CMaQtP143V/KxeGZqRcdyJcT1EHdvrr6cyqK6G2UP0oZdVC5MDyC
+UWyqIG4zfN/2gPHZ7kfM4R8R9kfw/iYOTgwfHhXZi7+V90ECqzVEdzkeWFi4jdv/G9z+U69/+7uk
+GAlkP3Q67bP/AdqBFy3Dh/2zAAAAAElFTkSuQmCC
+
+--_009_DM5PR2001MB1724090131AF7A9795BCB0FFDF9F0DM5PR2001MB1724_--
