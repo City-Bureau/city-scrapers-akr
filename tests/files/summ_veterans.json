@@ -1,0 +1,114 @@
+{
+ "kind": "calendar#events",
+ "etag": "\"p3249f8sajfcu80g\"",
+ "summary": "vscsummitcalendar@gmail.com",
+ "updated": "2019-09-18T01:24:03.973Z",
+ "timeZone": "America/New_York",
+ "accessRole": "reader",
+ "defaultReminders": [],
+ "nextSyncToken": "CIiXo4qb2eQCEAAYAQ==",
+ "items": [
+  {
+   "kind": "calendar#event",
+   "etag": "\"2941668094996000\"",
+   "id": "s1urvppd22fq52399qg1lna598_20191009T170000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=czF1cnZwcGQyMmZxNTIzOTlxZzFsbmE1OThfMjAxOTEwMDlUMTcwMDAwWiB2c2NzdW1taXRjYWxlbmRhckBt&ctz=America/New_York",
+   "created": "2016-06-23T12:57:22.000Z",
+   "updated": "2016-08-10T13:00:47.498Z",
+   "summary": "Commissioner Board Meeting",
+   "description": "Commission meetings are generally held in Freedom Hall inside the Veterans Service Commission the second and fourth wednesday of every month.",
+   "location": "1060 E Waterloo Rd, Akron, OH 44306, USA",
+   "creator": {
+    "email": "vscsummitcalendar@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "vscsummitcalendar@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2019-10-09T13:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2019-10-09T16:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurringEventId": "s1urvppd22fq52399qg1lna598",
+   "originalStartTime": {
+    "dateTime": "2019-10-09T13:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "s1urvppd22fq52399qg1lna598@google.com",
+   "sequence": 1
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2950490916294000\"",
+   "id": "a2q3uh05l94vj1l9ig299jl6rc_20191023T170000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YTJxM3VoMDVsOTR2ajFsOWlnMjk5amw2cmNfMjAxOTEwMjNUMTcwMDAwWiB2c2NzdW1taXRjYWxlbmRhckBt&ctz=America/New_York",
+   "created": "2016-06-23T12:58:28.000Z",
+   "updated": "2016-09-30T14:24:18.147Z",
+   "summary": "Commissioner Board Meeting",
+   "description": "Commission meetings are generally held in Freedom Hall inside the Veterans Service Commission the second and fourth wednesday of every month. ",
+   "location": "1060 E Waterloo Rd, Akron, OH 44306, USA",
+   "creator": {
+    "email": "vscsummitcalendar@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "vscsummitcalendar@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2019-10-23T13:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2019-10-23T16:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurringEventId": "a2q3uh05l94vj1l9ig299jl6rc",
+   "originalStartTime": {
+    "dateTime": "2019-10-23T13:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "a2q3uh05l94vj1l9ig299jl6rc@google.com",
+   "sequence": 1
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3087723224562000\"",
+   "id": "4f84dhva3262lh2n8vg9m7c043",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NGY4NGRodmEzMjYybGgybjh2ZzltN2MwNDMgdnNjc3VtbWl0Y2FsZW5kYXJAbQ&ctz=America/New_York",
+   "created": "2018-12-03T18:26:52.000Z",
+   "updated": "2018-12-03T18:26:52.281Z",
+   "summary": "Closed - Columbus Day",
+   "creator": {
+    "email": "vscsummitcalendar@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "vscsummitcalendar@gmail.com",
+    "self": true
+   },
+   "start": {
+    "date": "2019-10-14"
+   },
+   "end": {
+    "date": "2019-10-15"
+   },
+   "transparency": "transparent",
+   "iCalUID": "4f84dhva3262lh2n8vg9m7c043@google.com",
+   "sequence": 0,
+   "extendedProperties": {
+    "private": {
+     "everyoneDeclinedDismissed": "-1"
+    }
+   }
+  }
+ ]
+}
