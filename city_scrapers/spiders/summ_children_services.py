@@ -13,7 +13,6 @@ class SummChildrenServicesSpider(CityScrapersSpider):
     name = "summ_children_services"
     agency = "Summit County Children Services"
     timezone = "America/Detroit"
-    allowed_domains = ["www.summitkids.org"]
     start_urls = ["https://www.summitkids.org/About/Board-of-Trustees/Board-Resolutions-Minutes"]
     location = {
         "name": "Summit County Children Services",

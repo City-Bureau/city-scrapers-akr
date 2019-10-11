@@ -12,7 +12,6 @@ class AkrUrbanDesignHistoricSpider(CityScrapersSpider):
     name = "akr_urban_design_historic"
     agency = "Akron Urban Design and Historic Preservation"
     timezone = "America/Detroit"
-    allowed_domains = ["www.akronohio.gov"]
     start_urls = ["https://www.akronohio.gov/cms/site/4820d164c8ec21ed/index.html"]
     location = {
         "name": "Akron City Hall",

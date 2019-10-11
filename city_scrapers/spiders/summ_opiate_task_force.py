@@ -10,7 +10,6 @@ class SummOpiateTaskForceSpider(CityScrapersSpider):
     name = "summ_opiate_task_force"
     agency = "Summit County Opiate and Addiction Task Force"
     timezone = "America/Detroit"
-    allowed_domains = ["www.summitcountyaddictionhelp.org"]
     start_urls = ["https://www.summitcountyaddictionhelp.org/opiate-task-force-members.aspx"]
     location = {
         "name": "Summit County Public Health Department Auditorium",

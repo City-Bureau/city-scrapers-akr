@@ -12,7 +12,6 @@ class AkrPlanningSpider(CityScrapersSpider):
     name = "akr_planning"
     agency = "Akron City Planning Commission"
     timezone = "America/Detroit"
-    allowed_domains = ["www.akronohio.gov"]
     start_urls = ["https://www.akronohio.gov/cms/site/2387094f0d307b46/index.html"]
     location = {
         "name": "Akron City Hall",

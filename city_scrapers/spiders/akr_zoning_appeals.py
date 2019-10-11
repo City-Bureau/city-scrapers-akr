@@ -12,7 +12,6 @@ class AkrZoningAppealsSpider(CityScrapersSpider):
     name = "akr_zoning_appeals"
     agency = "Akron Board of Zoning Appeals"
     timezone = "America/Detroit"
-    allowed_domains = ["www.akronohio.gov"]
     start_urls = ["https://www.akronohio.gov/cms/site/462db8daed9dd330/index.html"]
     location = {
         "name": "Akron City Hall",

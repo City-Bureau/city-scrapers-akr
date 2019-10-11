@@ -14,7 +14,6 @@ class SummDevelopmentFinanceSpider(CityScrapersSpider):
     name = "summ_development_finance"
     agency = "Summit County Development Finance Authority"
     timezone = "America/Detroit"
-    allowed_domains = ["www.developmentfinanceauthority.org"]
     start_urls = ["http://www.developmentfinanceauthority.org/about/scheduled-meetings/"]
     location = {
         "name": "4th Floor Conference Room 408",

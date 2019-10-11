@@ -12,7 +12,6 @@ class AkrUniversitySpider(CityScrapersSpider):
     name = "akr_university"
     agency = "University of Akron"
     timezone = "America/Detroit"
-    allowed_domains = ["www.uakron.edu"]
     location = {
         "name": "University of Akron Student Union",
         "address": "303 Carroll St, Akron, OH 44304",

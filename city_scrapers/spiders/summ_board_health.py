@@ -11,7 +11,6 @@ class SummBoardHealthSpider(CityScrapersSpider):
     name = "summ_board_health"
     agency = "Summit County Board of Health"
     timezone = "America/Detroit"
-    allowed_domains = ["www.scph.org"]
     start_urls = ["https://www.scph.org/board-health"]
     location = {
         "name": "Summit County Public Health Department Boardroom",

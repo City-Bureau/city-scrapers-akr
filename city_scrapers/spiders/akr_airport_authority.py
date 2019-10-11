@@ -12,7 +12,6 @@ class AkrAirportAuthoritySpider(CityScrapersSpider):
     name = "akr_airport_authority"
     agency = "Akron-Canton Airport Authority"
     timezone = "America/Detroit"
-    allowed_domains = ["city-scrapers-notice-emails.s3.amazonaws.com"]
     start_urls = [
         "https://city-scrapers-notice-emails.s3.amazonaws.com/akr_airport_authority/latest.eml"
     ]

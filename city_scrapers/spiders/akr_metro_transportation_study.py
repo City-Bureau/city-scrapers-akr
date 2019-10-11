@@ -14,7 +14,6 @@ class AkrMetroTransportationStudySpider(CityScrapersSpider):
     name = "akr_metro_transportation_study"
     agency = "Akron Metropolitan Area Transportation Study"
     timezone = "America/Detroit"
-    allowed_domains = ["amatsplanning.org"]
     start_urls = ["http://amatsplanning.org/category/meetings/"]
 
     def parse(self, response):

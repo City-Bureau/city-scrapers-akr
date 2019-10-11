@@ -10,7 +10,6 @@ class SummReworksSpider(CityScrapersSpider):
     name = "summ_reworks"
     agency = "Summit County ReWorks"
     timezone = "America/Detroit"
-    allowed_domains = ["www.summitreworks.com"]
     start_urls = ["http://www.summitreworks.com/events/"]
     location = {
         "name": "Summit County Public Health",

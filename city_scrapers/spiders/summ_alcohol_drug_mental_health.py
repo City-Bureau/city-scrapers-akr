@@ -14,7 +14,6 @@ class SummAlcoholDrugMentalHealthSpider(CityScrapersSpider):
     name = "summ_alcohol_drug_mental_health"
     agency = "Summit County Alcohol, Drug Addiction and Mental Health Services Board"
     timezone = "America/Detroit"
-    allowed_domains = ["www.admboard.org"]
     start_urls = ["https://www.admboard.org/board-of-directors.aspx"]
 
     def parse(self, response):

@@ -16,7 +16,6 @@ class SummPlanningSpider(CityScrapersSpider):
     name = "summ_planning"
     agency = "Summit County Planning Commission"
     timezone = "America/Detroit"
-    allowed_domains = ["co.summitoh.net"]
     start_urls = [
         "https://co.summitoh.net/index.php/departments/community-a-economic-development/planning"
     ]

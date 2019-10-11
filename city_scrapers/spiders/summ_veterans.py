@@ -11,7 +11,6 @@ class SummVeteransSpider(CityScrapersSpider):
     name = "summ_veterans"
     agency = "Veterans Service Commission of Summit County"
     timezone = "America/Detroit"
-    allowed_domains = ["clients6.google.com"]
 
     @property
     def start_urls(self):

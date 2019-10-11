@@ -17,7 +17,6 @@ class AkrCityCouncilSpider(CityScrapersSpider):
     name = "akr_city_council"
     agency = "Akron City Council"
     timezone = "America/Detroit"
-    allowed_domains = ["www.akroncitycouncil.org"]
     location = {
         "name": "City Hall",
         "address": "166 South High St Akron, OH 44308",

@@ -10,7 +10,6 @@ class AkrMetroRegionalTransitSpider(CityScrapersSpider):
     name = "akr_metro_regional_transit"
     agency = "METRO Regional Transit Authority"
     timezone = "America/Detroit"
-    allowed_domains = ["www.akronmetro.org"]
     start_urls = ["https://www.akronmetro.org/metro-board-meetings.aspx"]
     location = {
         "name": "Robert K. Pfaff Transit Center",

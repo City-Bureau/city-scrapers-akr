@@ -10,7 +10,6 @@ class SummBoardControlSpider(CityScrapersSpider):
     name = "summ_board_control"
     agency = "Summit County Board of Control"
     timezone = "America/Detroit"
-    allowed_domains = ["co.summitoh.net"]
     start_urls = [
         "https://co.summitoh.net/index.php/offices/boards-agencies-a-commissions/board-of-control"
     ]

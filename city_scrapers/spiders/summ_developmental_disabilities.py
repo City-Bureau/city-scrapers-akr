@@ -13,7 +13,6 @@ class SummDevelopmentalDisabilitiesSpider(CityScrapersSpider):
     name = "summ_developmental_disabilities"
     agency = "Summit County Developmental Disabilities Board"
     timezone = "America/Detroit"
-    allowed_domains = ["www.summitdd.org"]
     custom_settings = {"ROBOTSTXT_OBEY": False, "HTTPERROR_ALLOW_ALL": True}
 
     def __init__(self, *args, **kwargs):

@@ -12,7 +12,6 @@ class SummCountyCouncilSpider(CityScrapersSpider):
     name = "summ_county_council"
     agency = "Summit County Council"
     timezone = "America/Detroit"
-    allowed_domains = ["council.summitoh.net"]
     location = {
         "name": "Council Chambers",
         "address": "175 S Main St, Floor 7, Akron, OH 44308",

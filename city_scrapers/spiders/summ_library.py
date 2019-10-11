@@ -11,7 +11,6 @@ class SummLibrarySpider(CityScrapersSpider):
     name = "summ_library"
     agency = "Akron-Summit County Public Library"
     timezone = "America/Detroit"
-    allowed_domains = ["www.akronlibrary.org"]
     start_urls = ["https://www.akronlibrary.org/about/board-of-trustees/minutes"]
 
     def parse(self, response):

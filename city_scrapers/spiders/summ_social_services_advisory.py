@@ -15,7 +15,6 @@ class SummSocialServicesAdvisorySpider(CityScrapersSpider):
     name = "summ_social_services_advisory"
     agency = "Summit County Social Services Advisory Board"
     timezone = "America/Detroit"
-    allowed_domains = ["city-scrapers-notice-emails.s3.amazonaws.com"]
     start_urls = [
         "https://city-scrapers-notice-emails.s3.amazonaws.com/summ_social_services_advisory/latest.eml"  # noqa
     ]

@@ -10,7 +10,6 @@ class AkrDowntownPartnershipSpider(CityScrapersSpider):
     name = "akr_downtown_partnership"
     agency = "Downtown Akron Partnership"
     timezone = "America/Detroit"
-    allowed_domains = ["www.downtownakron.com"]
     start_urls = ["https://www.downtownakron.com/work/district-meetings"]
 
     def parse(self, response):

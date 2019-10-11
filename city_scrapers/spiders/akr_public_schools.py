@@ -11,7 +11,6 @@ class AkrPublicSchoolsSpider(CityScrapersSpider):
     name = "akr_public_schools"
     agency = "Akron Public Schools"
     timezone = "America/Detroit"
-    allowed_domains = ["go.boarddocs.com"]
     start_urls = ["https://go.boarddocs.com/oh/akron/Board.nsf/XML-ActiveMeetings"]
     location = {
         "name": "Sylvester Small Administration Building",

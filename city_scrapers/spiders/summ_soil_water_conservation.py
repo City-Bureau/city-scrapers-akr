@@ -11,7 +11,6 @@ class SummSoilWaterConservationSpider(CityScrapersSpider):
     name = "summ_soil_water_conservation"
     agency = "Summit County Soil and Water Conservation District"
     timezone = "America/Detroit"
-    allowed_domains = ["clients6.google.com"]
 
     @property
     def start_urls(self):

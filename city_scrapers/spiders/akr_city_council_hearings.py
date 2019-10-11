@@ -11,7 +11,6 @@ class AkrCityCouncilHearingsSpider(CityScrapersSpider):
     name = "akr_city_council_hearings"
     agency = "Akron City Council"
     timezone = "America/Detroit"
-    allowed_domains = ["www.akroncitycouncil.org"]
     start_urls = ["http://www.akroncitycouncil.org/upcoming-meetings/"]
     location = {
         "name": "City Hall, Council Chambers",
