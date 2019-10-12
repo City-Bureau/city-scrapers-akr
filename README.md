@@ -1,6 +1,6 @@
 # City Scrapers Akron
 
-[![Build Status](https://travis-ci.org/City-Bureau/city-scrapers-akr.svg?branch=master)](https://travis-ci.org/City-Bureau/city-scrapers-akr)
+[![Build status](https://github.com/City-Bureau/city-scrapers-akr/workflows/CI%20Checks/badge.svg)](https://github.com/City-Bureau/city-scrapers-akr/actions)
 
 Repo for the [City Scrapers](https://cityscrapers.org) project in Akron.
 
