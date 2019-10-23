@@ -25,7 +25,7 @@ class SummReworksSpider(CityScrapersSpider):
         """
         for item in response.css(".barItemDetail"):
             title = self._parse_title(item)
-            if "Board" not in title and "Committee" not in title:
+            if "Invitation" in title or ("Board" not in title and "Committee" not in title):
                 continue
             self._validate_location(item)
             meeting = Meeting(
