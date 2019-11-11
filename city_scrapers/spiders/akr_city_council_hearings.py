@@ -77,12 +77,19 @@ class AkrCityCouncilHearingsSpider(CityScrapersSpider):
         if "Council Chambers" in item["location"]:
             return self.location
 
+        name_str = ""
         split_loc = item["location"].split(", ", 1)
         if item["location"][0].isdigit() or len(split_loc) == 1:
-            return {"name": "", "address": item["location"]}
+            name_str = ""
+            addr_str = item["location"].strip()
+        else:
+            name_str = split_loc[0].strip()
+            addr_str = split_loc[1].strip()
+        if "Akron" not in addr_str and "description" not in addr_str.lower():
+            addr_str += " Akron, OH"
         return {
-            "name": split_loc[0],
-            "address": split_loc[1],
+            "name": name_str,
+            "address": addr_str,
         }
 
     def _parse_source(self, item, response):

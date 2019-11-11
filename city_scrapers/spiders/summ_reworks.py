@@ -27,7 +27,6 @@ class SummReworksSpider(CityScrapersSpider):
             title = self._parse_title(item)
             if "Invitation" in title or ("Board" not in title and "Committee" not in title):
                 continue
-            self._validate_location(item)
             meeting = Meeting(
                 title=title,
                 description="",
@@ -36,7 +35,7 @@ class SummReworksSpider(CityScrapersSpider):
                 end=None,
                 all_day=False,
                 time_notes="",
-                location=self.location,
+                location=self._parse_location(item),
                 links=[],
                 source=response.url,
             )
@@ -64,7 +63,17 @@ class SummReworksSpider(CityScrapersSpider):
         dt_str = " ".join(item.css(".barItemDate *::text").extract()).strip()
         return datetime.strptime(dt_str.replace(".", ""), "%B %d, %Y, %I:%M %p")
 
-    def _validate_location(self, item):
+    def _parse_location(self, item):
         """Parse or generate location."""
-        if "1867" not in " ".join(item.css("*::text").extract()):
-            raise ValueError("Meeting location has changed")
+        addr_text = re.sub(
+            r"\s+", " ", " ".join([
+                " ".join(line.css("*::text").extract())
+                for line in item.css(".barItemDescription > p")
+                if re.search(r"\d{5}", " ".join(line.css("*::text").extract()))
+            ])
+        ).strip()
+        if not addr_text:
+            raise ValueError("Meeting location could not be parsed")
+        if "1867" in addr_text:
+            return self.location
+        return {"name": "", "address": addr_text}
