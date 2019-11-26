@@ -9,6 +9,92 @@ from dateutil.relativedelta import relativedelta
 from scrapy import FormRequest
 
 
+def rshift(val, n):
+    """Replacement for JavaScript's >>> operator"""
+    return (val % 0x100000000) >> n
+
+
+def js_string_func(js_str):
+    """Apply the JS string functions since there are only a few"""
+    content_match = re.search(r"(?<=['\"]).*(?=['\"])", js_str)
+    content = ""
+    arg_match = re.search(r"(?<=\()[x0-9,\s=]{1,5}(?=\))", js_str)
+    arg_str = ""
+    if not content_match and "fromCharCode" not in js_str:
+        return ""
+    elif content_match:
+        content = content_match.group()
+
+    if any(w in js_str for w in ["slice", "substr", "charAt", "fromCharCode"]):
+        if not arg_match:
+            return ""
+        arg_str = arg_match.group()
+    if "slice" in js_str or "substr" in js_str:
+        func_args = [int(i.strip()) for i in arg_str.split(",")]
+        start_val = func_args[0]
+        stop_val = func_args[1]
+        if "substr" in js_str:
+            stop_val = start_val + stop_val
+        return content[start_val:stop_val]
+    elif "charAt" in js_str:
+        return content[int(arg_str)]
+    elif "fromCharCode" in js_str:
+        if "x" in arg_str:
+            return chr(int(arg_str, 16))
+        return chr(int(arg_str))
+    else:
+        return content
+
+
+def parse_decoded_sucuri(sucuri_str):
+    """Take the resulting JS code from decoding the initial sucuri string and run the operations"""
+    sucuri_split = [s for s in re.split(r";(?!(path|max-))", sucuri_str) if s]
+    var_name, var_str = [s.strip() for s in sucuri_split[0].split("=", 1)]
+    init_str = "".join([js_string_func(s.strip()) for s in var_str.split("+")])
+    cookie_str = sucuri_split[1].split("=", 1)[1].strip()
+    output_str = ""
+    for str_chunk in cookie_str.split("+"):
+        if str_chunk.strip() == var_name:
+            output_str += init_str
+        else:
+            output_str += js_string_func(str_chunk.strip())
+    return output_str
+
+
+def get_sucuri_cookie(sucuri_str):
+    """
+    Sucuri is a web security service that is pretty aggressive in requiring that clients be able to
+    process JavaScript in order to access any page content. On initial page load it runs some code
+    to create an arbitrary cookie that is required for any HTML content to be rendered.
+
+    It initially follows a standard set of operations (included here) to generate a string of
+    JavaScript that it then executes to create the cookie and reload the page. This function follows
+    those first operations and then gets the resulting cookie from parsing the output with
+    parse_decoded_sucuri.
+    """
+    sucuri_dict = {}
+    sucuri_len = len(sucuri_str)
+    sucuri_c = None
+    sucuri_u = 0
+    sucuri_l = 0
+    sucuri_r = ""
+    all_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    for i in range(64):
+        sucuri_dict[all_chars[i]] = i
+    for i in range(sucuri_len):
+        if sucuri_str[i] not in sucuri_dict:
+            continue
+        sucuri_c = sucuri_dict[sucuri_str[i]]
+        sucuri_u = (sucuri_u << 6) + sucuri_c
+        sucuri_l += 6
+        while sucuri_l >= 8:
+            sucuri_l -= 8
+            sucuri_a = rshift(sucuri_u, sucuri_l) & 0xff
+            if sucuri_a or i < (sucuri_len - 2):
+                sucuri_r += chr(sucuri_a)
+    return parse_decoded_sucuri(sucuri_r)
+
+
 class SummChildrenServicesSpider(CityScrapersSpider):
     name = "summ_children_services"
     agency = "Summit County Children Services"
@@ -26,9 +112,23 @@ class SummChildrenServicesSpider(CityScrapersSpider):
         Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
         needs.
         """
+        script_str = response.css("script::text").extract_first()
+        sucuri_match = re.search(r"(?<=('|\"))[a-zA-Z0-9=]{100,10000}(?=('|\"))", script_str)
+        self.cookie = get_sucuri_cookie(sucuri_match.group())
+        yield response.follow(
+            response.url,
+            callback=self._parse_documents_page,
+            headers={"Cookie": self.cookie},
+            dont_filter=True
+        )
+
+    def _parse_documents_page(self, response):
         self.link_date_map = self._parse_documents(response)
         yield response.follow(
-            "/Community-Action/Calendar", callback=self._parse_calendar, dont_filter=True
+            "/Community-Action/Calendar",
+            headers={"Cookie": self.cookie},
+            callback=self._parse_calendar,
+            dont_filter=True
         )
 
     def _parse_documents(self, response):
@@ -87,6 +187,7 @@ class SummChildrenServicesSpider(CityScrapersSpider):
                 yield response.follow(
                     link.attrib["href"],
                     callback=self._parse_detail,
+                    headers={"Cookie": self.cookie},
                     dont_filter=True,
                 )
 
