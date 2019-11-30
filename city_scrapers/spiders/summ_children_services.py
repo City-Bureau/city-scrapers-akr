@@ -114,7 +114,8 @@ class SummChildrenServicesSpider(CityScrapersSpider):
         """
         print(response.text)
         script_str = " ".join(response.css("script::text").extract())
-        sucuri_match = re.search(r"(?<=('|\"))[a-zA-Z0-9=]{100,10000}(?=('|\"))", script_str)
+        print(script_str)
+        sucuri_match = re.search(r"(?<=('|\"))[a-zA-Z0-9+=]{100,10000}(?=('|\"))", script_str)
         self.cookie = get_sucuri_cookie(sucuri_match.group())
         yield response.follow(
             response.url,
