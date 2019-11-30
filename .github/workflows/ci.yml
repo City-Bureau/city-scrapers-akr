@@ -30,8 +30,9 @@ jobs:
       uses: actions/cache@v1
       with:
         path: .venv
-        key: pip-${{ hashFiles('**/Pipfile.lock') }}
+        key: pip-${{ matrix.python-version }}-${{ hashFiles('**/Pipfile.lock') }}
         restore-keys: |
+          pip-${{ matrix.python-version }}-
           pip-
     - name: Install dependencies
       run: pipenv sync --dev
