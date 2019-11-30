@@ -34,7 +34,7 @@ jobs:
         restore-keys: |
           pip-
     - name: Install dependencies
-      run: pipenv sync --dev
+      run: python3 -m pipenv sync --dev
     - name: Check imports with isort
       run: |
         pipenv run isort --check-only --diff || exit 1

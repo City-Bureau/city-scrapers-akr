@@ -37,7 +37,7 @@ jobs:
         restore-keys: |
           pip-
     - name: Install dependencies
-      run: pipenv sync
+      run: python3 -m pipenv sync
     - name: Run scrapers
       run: |
         export PYTHONPATH=$(pwd):$PYTHONPATH
