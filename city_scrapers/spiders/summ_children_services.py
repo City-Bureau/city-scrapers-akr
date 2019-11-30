@@ -112,8 +112,8 @@ class SummChildrenServicesSpider(CityScrapersSpider):
         Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
         needs.
         """
-        script_str = response.css("script::text").extract_first()
-        sucuri_match = re.search(r"(?<=('|\"))[a-zA-Z0-9=]{100,10000}(?=('|\"))", script_str)
+        script_str = " ".join(response.css("script::text").extract())
+        sucuri_match = re.search(r"(?<=('|\"))[a-zA-Z0-9+=]{100,10000}(?=('|\"))", script_str)
         self.cookie = get_sucuri_cookie(sucuri_match.group())
         yield response.follow(
             response.url,
