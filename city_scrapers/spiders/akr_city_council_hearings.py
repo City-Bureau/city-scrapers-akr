@@ -32,8 +32,8 @@ class AkrCityCouncilHearingsSpider(CityScrapersSpider):
         for item in json.loads(data_str):
             # Ignore non-meetings or regular City Council/Committee meetings
             if (
-                item["location"] == "City of Akron" or "Committee" in item["Name"]
-                or "Council" in item["Name"] or "Trick" in item["Name"]
+                item["location"] == "City of Akron" or "Council" in item["Name"]
+                or "Trick" in item["Name"]
             ):
                 continue
 
