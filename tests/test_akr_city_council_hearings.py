@@ -23,53 +23,53 @@ freezer.stop()
 
 
 def test_count():
-    assert len(parsed_items) == 24
+    assert len(parsed_items) == 33
 
 
 def test_title():
-    assert parsed_items[0]["title"] == "Public Hearings"
+    assert parsed_items[1]["title"] == "Public Hearings"
 
 
 def test_description():
-    assert parsed_items[0]["description"] == "Conditional Use and Rezoning Requests"
+    assert parsed_items[1]["description"] == "Conditional Use and Rezoning Requests"
 
 
 def test_start():
-    assert parsed_items[0]["start"] == datetime(2019, 10, 7, 19, 0)
+    assert parsed_items[1]["start"] == datetime(2019, 10, 7, 19, 0)
 
 
 def test_end():
-    assert parsed_items[0]["end"] == datetime(2019, 10, 7, 20, 30)
+    assert parsed_items[1]["end"] == datetime(2019, 10, 7, 20, 30)
 
 
 def test_time_notes():
-    assert parsed_items[0]["time_notes"] == ""
+    assert parsed_items[1]["time_notes"] == ""
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "akr_city_council_hearings/201910071900/x/public_hearings"
+    assert parsed_items[1]["id"] == "akr_city_council_hearings/201910071900/x/public_hearings"
 
 
 def test_status():
-    assert parsed_items[0]["status"] == TENTATIVE
+    assert parsed_items[1]["status"] == TENTATIVE
 
 
 def test_location():
-    assert parsed_items[0]["location"] == spider.location
+    assert parsed_items[1]["location"] == spider.location
 
 
 def test_source():
-    assert parsed_items[0][
+    assert parsed_items[1][
         "source"] == "http://www.akroncitycouncil.org/upcoming-meetings/public-hearings-1/"
 
 
 def test_links():
-    assert parsed_items[0]["links"] == []
+    assert parsed_items[1]["links"] == []
 
 
 def test_classification():
-    assert parsed_items[0]["classification"] == FORUM
+    assert parsed_items[1]["classification"] == FORUM
 
 
 def test_all_day():
-    assert parsed_items[0]["all_day"] is False
+    assert parsed_items[1]["all_day"] is False
