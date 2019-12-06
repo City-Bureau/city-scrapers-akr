@@ -22,7 +22,7 @@ test_detail_response = file_response(
 EXPECTED_LINKS = [{
     "title": "Agenda",
     "href":
-        "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Documents/ViewAgenda?meetingId=262&doctype=1"  # noqa
+        "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Documents/ViewDocument/November_25%2c_2019_271_Agenda_11_25_2019_7_00_00_PM.pdf?documentType=1&meetingId=271"  # noqa
 }]
 
 spider = AkrCityCouncilSpider()

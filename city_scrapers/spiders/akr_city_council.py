@@ -53,7 +53,12 @@ class AkrCityCouncilSpider(CityScrapersSpider):
                 agenda_link = agenda_link.replace(
                     "Meetings/ViewMeeting?i", "Documents/ViewAgenda?meetingI"
                 )
-                pdf_link = item.css("td:last-child a::attr(href)").extract()[-1]
+                pdf_link = re.sub(
+                    r"downloadfile",
+                    "ViewDocument",
+                    item.css("td:last-child a::attr(href)").extract()[-1],
+                    flags=re.I
+                )
                 yield response.follow(
                     agenda_link,
                     callback=self._parse_detail,
