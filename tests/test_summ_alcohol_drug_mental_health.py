@@ -18,7 +18,7 @@ test_response = file_response(
 )
 spider = SummAlcoholDrugMentalHealthSpider()
 
-freezer = freeze_time("2019-10-02")
+freezer = freeze_time("2019-12-21")
 freezer.start()
 
 spider.date_link_map = spider._parse_documents(test_docs_response)
