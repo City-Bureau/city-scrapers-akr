@@ -111,9 +111,9 @@ class SummAlcoholDrugMentalHealthSpider(CityScrapersSpider):
 
     def _parse_dt(self, dt_str):
         """Parse datetime string in UTC and convert it to a naive datetime in local time"""
-        dt = datetime.strptime(dt_str, "%Y-%m-%dT%H:%M:%SZ")
+        dt = datetime.strptime(dt_str.replace(":", ""), "%Y-%m-%dT%H%M%S%z")
         tz = pytz.timezone(self.timezone)
-        return pytz.utc.localize(dt).astimezone(tz).replace(tzinfo=None)
+        return dt.astimezone(tz).replace(tzinfo=None)
 
     def _parse_location(self, detail):
         """Parse or generate location."""
