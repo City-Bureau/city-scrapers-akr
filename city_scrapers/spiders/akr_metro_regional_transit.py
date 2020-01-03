@@ -31,11 +31,14 @@ class AkrMetroRegionalTransitSpider(CityScrapersSpider):
 
         # TODO: Find info for additional committees
         for item in response.css("#subpage-main h2 + ul")[:1].css("li"):
+            start = self._parse_start(item, year_str)
+            if not start:
+                continue
             meeting = Meeting(
                 title=self._parse_title(item),
                 description="",
                 classification=BOARD,
-                start=self._parse_start(item, year_str),
+                start=start,
                 end=None,
                 all_day=False,
                 time_notes="",
