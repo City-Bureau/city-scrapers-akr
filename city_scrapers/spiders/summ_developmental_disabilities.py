@@ -94,6 +94,9 @@ class SummDevelopmentalDisabilitiesSpider(CityScrapersSpider):
         loc_parts = [
             p.strip() for p in response.css(".location-address::text").extract() if p.strip()
         ]
+        # Likely remote
+        if len(loc_parts) == 0:
+            return {"name": "", "address": ""}
         if loc_parts[1][0].isdigit():
             return {
                 "name": loc_parts[0].replace("\u2013", "-"),
