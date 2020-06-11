@@ -55,7 +55,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "summ_development_finance/201901140830/x/board_of_directors"
+    assert (
+        parsed_items[0]["id"]
+        == "summ_development_finance/201901140830/x/board_of_directors"
+    )
 
 
 def test_status():
@@ -72,11 +75,12 @@ def test_source():
 
 def test_links():
     assert parsed_items[0]["links"] == []
-    assert parsed_items[18]["links"] == [{
-        "href":
-            "http://www.developmentfinanceauthority.org/wp-content/uploads/2019/10/2019-10-15-Board-Agenda.docx",  # noqa
-        "title": "Agenda"
-    }]
+    assert parsed_items[18]["links"] == [
+        {
+            "href": "http://www.developmentfinanceauthority.org/wp-content/uploads/2019/10/2019-10-15-Board-Agenda.docx",  # noqa
+            "title": "Agenda",
+        }
+    ]
 
 
 def test_classification():

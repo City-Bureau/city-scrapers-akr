@@ -16,7 +16,7 @@ test_response = file_response(
 )
 test_links_response = file_response(
     join(dirname(__file__), "files", "summ_county_council_links.html"),
-    url="https://council.summitoh.net/index.php/legislative-information/agendas/committee/2019",
+    url="https://council.summitoh.net/index.php/legislative-information/agendas/committee/2019",  # noqa
 )
 spider = SummCountyCouncilSpider()
 
@@ -72,11 +72,12 @@ def test_source():
 
 def test_links():
     assert parsed_items[0]["links"] == []
-    assert parsed_items[2]["links"] == [{
-        "title": "Agenda",
-        "href":
-            "https://council.summitoh.net/index.php/legislative-information/agendas/committee/2019/finish/145/10551"  # noqa
-    }]
+    assert parsed_items[2]["links"] == [
+        {
+            "title": "Agenda",
+            "href": "https://council.summitoh.net/index.php/legislative-information/agendas/committee/2019/finish/145/10551",  # noqa
+        }
+    ]
 
 
 def test_classification():

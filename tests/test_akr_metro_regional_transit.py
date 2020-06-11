@@ -6,7 +6,9 @@ from city_scrapers_core.constants import BOARD, PASSED
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
-from city_scrapers.spiders.akr_metro_regional_transit import AkrMetroRegionalTransitSpider
+from city_scrapers.spiders.akr_metro_regional_transit import (
+    AkrMetroRegionalTransitSpider,
+)
 
 test_response = file_response(
     join(dirname(__file__), "files", "akr_metro_regional_transit.html"),
@@ -47,8 +49,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0][
-        "id"] == "akr_metro_regional_transit/201901290830/x/board_of_trustees_and_committees"
+    assert (
+        parsed_items[0]["id"]
+        == "akr_metro_regional_transit/201901290830/x/board_of_trustees_and_committees"
+    )
 
 
 def test_status():
@@ -64,10 +68,12 @@ def test_source():
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [{
-        "href": "https://www.akronmetro.org/Data/Sites/2/pdf/january-2019-board-packet.pdf",
-        "title": "Board Packet"
-    }]
+    assert parsed_items[0]["links"] == [
+        {
+            "href": "https://www.akronmetro.org/Data/Sites/2/pdf/january-2019-board-packet.pdf",  # noqa
+            "title": "Board Packet",
+        }
+    ]
 
 
 def test_classification():

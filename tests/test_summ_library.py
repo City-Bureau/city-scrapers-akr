@@ -71,10 +71,12 @@ def test_source():
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [{
-        "href": "https://www.akronlibrary.org/images/boardMinutes/2019/1_2019_Board_Minutes.pdf",
-        "title": "Board Minutes"
-    }]
+    assert parsed_items[0]["links"] == [
+        {
+            "href": "https://www.akronlibrary.org/images/boardMinutes/2019/1_2019_Board_Minutes.pdf",  # noqa
+            "title": "Board Minutes",
+        }
+    ]
 
 
 def test_classification():

@@ -10,7 +10,7 @@ from city_scrapers.spiders.summ_planning import SummPlanningSpider
 
 test_docs_response = file_response(
     join(dirname(__file__), "files", "summ_planning.html"),
-    url="https://co.summitoh.net/index.php/departments/community-a-economic-development/planning",
+    url="https://co.summitoh.net/index.php/departments/community-a-economic-development/planning",  # noqa
 )
 test_response = file_response(
     join(dirname(__file__), "files", "summ_planning.pdf"),
@@ -72,11 +72,12 @@ def test_source():
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [{
-        "href":
-            "https://co.summitoh.net/images/stories/Development/Planning/Meeting/2019/January242019_SCPC_Packet.pdf",  # noqa
-        "title": "Meeting Packet"
-    }]
+    assert parsed_items[0]["links"] == [
+        {
+            "href": "https://co.summitoh.net/images/stories/Development/Planning/Meeting/2019/January242019_SCPC_Packet.pdf",  # noqa
+            "title": "Meeting Packet",
+        }
+    ]
 
 
 def test_classification():

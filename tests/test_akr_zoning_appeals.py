@@ -48,7 +48,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "akr_zoning_appeals/201901301500/x/board_of_zoning_appeals"
+    assert (
+        parsed_items[0]["id"]
+        == "akr_zoning_appeals/201901301500/x/board_of_zoning_appeals"
+    )
 
 
 def test_status():

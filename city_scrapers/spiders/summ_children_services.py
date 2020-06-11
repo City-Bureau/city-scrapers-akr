@@ -47,7 +47,10 @@ def js_string_func(js_str):
 
 
 def parse_decoded_sucuri(sucuri_str):
-    """Take the resulting JS code from decoding the initial sucuri string and run the operations"""
+    """
+    Take the resulting JS code from decoding the initial sucuri string and run the
+    operations
+    """
     sucuri_split = [s for s in re.split(r";(?!(path|max-))", sucuri_str) if s]
     var_name, var_str = [s.strip() for s in sucuri_split[0].split("=", 1)]
     init_str = "".join([js_string_func(s.strip()) for s in var_str.split("+")])
@@ -63,14 +66,15 @@ def parse_decoded_sucuri(sucuri_str):
 
 def get_sucuri_cookie(sucuri_str):
     """
-    Sucuri is a web security service that is pretty aggressive in requiring that clients be able to
-    process JavaScript in order to access any page content. On initial page load it runs some code
-    to create an arbitrary cookie that is required for any HTML content to be rendered.
+    Sucuri is a web security service that is pretty aggressive in requiring that
+    clients be able to process JavaScript in order to access any page content. On
+    initial page load it runs some code to create an arbitrary cookie that is required
+    for any HTML content to be rendered.
 
-    It initially follows a standard set of operations (included here) to generate a string of
-    JavaScript that it then executes to create the cookie and reload the page. This function follows
-    those first operations and then gets the resulting cookie from parsing the output with
-    parse_decoded_sucuri.
+    It initially follows a standard set of operations (included here) to generate a
+    string of JavaScript that it then executes to create the cookie and reload the page.
+    This function follows those first operations and then gets the resulting cookie from
+    parsing the output with parse_decoded_sucuri.
     """
     sucuri_dict = {}
     sucuri_len = len(sucuri_str)
@@ -89,7 +93,7 @@ def get_sucuri_cookie(sucuri_str):
         sucuri_l += 6
         while sucuri_l >= 8:
             sucuri_l -= 8
-            sucuri_a = rshift(sucuri_u, sucuri_l) & 0xff
+            sucuri_a = rshift(sucuri_u, sucuri_l) & 0xFF
             if sucuri_a or i < (sucuri_len - 2):
                 sucuri_r += chr(sucuri_a)
     return parse_decoded_sucuri(sucuri_r)
@@ -99,7 +103,9 @@ class SummChildrenServicesSpider(CityScrapersSpider):
     name = "summ_children_services"
     agency = "Summit County Children Services"
     timezone = "America/Detroit"
-    start_urls = ["https://www.summitkids.org/About/Board-of-Trustees/Board-Resolutions-Minutes"]
+    start_urls = [
+        "https://www.summitkids.org/About/Board-of-Trustees/Board-Resolutions-Minutes"
+    ]
     location = {
         "name": "Summit County Children Services",
         "address": "264 S Arlington St, Akron, OH 44306",
@@ -113,13 +119,15 @@ class SummChildrenServicesSpider(CityScrapersSpider):
         needs.
         """
         script_str = " ".join(response.css("script::text").extract())
-        sucuri_match = re.search(r"(?<=('|\"))[a-zA-Z0-9+=]{100,10000}(?=('|\"))", script_str)
+        sucuri_match = re.search(
+            r"(?<=('|\"))[a-zA-Z0-9+=]{100,10000}(?=('|\"))", script_str
+        )
         self.cookie = get_sucuri_cookie(sucuri_match.group())
         yield response.follow(
             response.url,
             callback=self._parse_documents_page,
             headers={"Cookie": self.cookie},
-            dont_filter=True
+            dont_filter=True,
         )
 
     def _parse_documents_page(self, response):
@@ -128,7 +136,7 @@ class SummChildrenServicesSpider(CityScrapersSpider):
             "/Community-Action/Calendar",
             headers={"Cookie": self.cookie},
             callback=self._parse_calendar,
-            dont_filter=True
+            dont_filter=True,
         )
 
     def _parse_documents(self, response):
@@ -142,16 +150,19 @@ class SummChildrenServicesSpider(CityScrapersSpider):
                     link_title = "Minutes"
                 if "Resolutions" in link_title:
                     link_title = "Resolutions"
-                link_date_map[month_year_match.group()].append({
-                    "title": link_title,
-                    "href": response.urljoin(link.attrib["href"]),
-                })
+                link_date_map[month_year_match.group()].append(
+                    {
+                        "title": link_title,
+                        "href": response.urljoin(link.attrib["href"]),
+                    }
+                )
         return link_date_map
 
     def _parse_calendar(self, response):
         """
-        The __EVENTARGUMENT changes by the number of days to offset from an arbitrary number.
-        Here we're getting the start value and using it to calculate the value for each month
+        The __EVENTARGUMENT changes by the number of days to offset from an arbitrary
+        number. Here we're getting the start value and using it to calculate the value
+        for each month
         """
         this_month = datetime.now().replace(day=1)
         prev_val = response.css(".EventNextPrev a::attr(href)").extract_first()
@@ -163,14 +174,18 @@ class SummChildrenServicesSpider(CityScrapersSpider):
             month = this_month + relativedelta(months=month_diff)
             diff_days = (month - this_month).days
             payload = {
-                "ScriptManager": "dnn$ctr426$Events_UP|dnn$ctr426$Events$EventMonth$EventCalendar",
+                "ScriptManager": "dnn$ctr426$Events_UP|dnn$ctr426$Events$EventMonth$EventCalendar",  # noqa
                 "__EVENTTARGET": "dnn$ctr426$Events$EventMonth$EventCalendar",
                 "__EVENTARGUMENT": "V{}".format(arg_num + diff_days),
-                "__VIEWSTATE": response.css("#__VIEWSTATE::attr(value)").extract_first(),
-                "__VIEWSTATEGENERATOR":
-                    response.css("#__VIEWSTATEGENERATOR::attr(value)").extract_first(),
-                "__EVENTVALIDATION":
-                    response.css("#__EVENTVALIDATION::attr(value)").extract_first(),
+                "__VIEWSTATE": response.css(
+                    "#__VIEWSTATE::attr(value)"
+                ).extract_first(),
+                "__VIEWSTATEGENERATOR": response.css(
+                    "#__VIEWSTATEGENERATOR::attr(value)"
+                ).extract_first(),
+                "__EVENTVALIDATION": response.css(
+                    "#__EVENTVALIDATION::attr(value)"
+                ).extract_first(),
                 "dnn$ctr426$Events$EventMonth$SelectCategory$ddlCategories": "All",
             }
             yield FormRequest(
@@ -197,8 +212,9 @@ class SummChildrenServicesSpider(CityScrapersSpider):
         if not board_start:
             return
         location = self._parse_location(response)
-        meeting_items = ([(board_title, board_start, board_end)] +
-                         self._parse_committees(response, board_start))
+        meeting_items = [
+            (board_title, board_start, board_end)
+        ] + self._parse_committees(response, board_start)
 
         for title, start, end in meeting_items:
             classification = self._parse_classification(title)
@@ -262,10 +278,14 @@ class SummChildrenServicesSpider(CityScrapersSpider):
             dur_str, apm_str = time_str.strip().split(" ", 1)
             apm_str = apm_str.replace(".", "")
             time_strs = dur_str.split("-")
-            start = datetime.combine(start.date(), self._parse_time_str(time_strs[0] + apm_str))
+            start = datetime.combine(
+                start.date(), self._parse_time_str(time_strs[0] + apm_str)
+            )
             end = None
             if len(time_strs) > 1:
-                end = datetime.combine(start.date(), self._parse_time_str(time_strs[1] + apm_str))
+                end = datetime.combine(
+                    start.date(), self._parse_time_str(time_strs[1] + apm_str)
+                )
             committees.append((title, start, end))
         return committees
 

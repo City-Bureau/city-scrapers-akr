@@ -10,7 +10,7 @@ from city_scrapers.spiders.summ_board_control import SummBoardControlSpider
 
 test_response = file_response(
     join(dirname(__file__), "files", "summ_board_control.html"),
-    url="https://co.summitoh.net/index.php/offices/boards-agencies-a-commissions/board-of-control",
+    url="https://co.summitoh.net/index.php/offices/boards-agencies-a-commissions/board-of-control",  # noqa
 )
 spider = SummBoardControlSpider()
 
@@ -63,11 +63,12 @@ def test_source():
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [{
-        "href":
-            "https://co.summitoh.net/images/stories/Finance/BOC/Agenda/19Agenda/10-02-19BOCAGENDA.pdf",  # noqa
-        "title": "Agenda"
-    }]
+    assert parsed_items[0]["links"] == [
+        {
+            "href": "https://co.summitoh.net/images/stories/Finance/BOC/Agenda/19Agenda/10-02-19BOCAGENDA.pdf",  # noqa
+            "title": "Agenda",
+        }
+    ]
 
 
 def test_classification():

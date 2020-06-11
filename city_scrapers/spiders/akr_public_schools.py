@@ -26,11 +26,17 @@ class AkrPublicSchoolsSpider(CityScrapersSpider):
         """
         # Getting around broken XML response by breaking into chunks
         meetings_split = (
-            response.text.split("<meetings>")[1].split("</meetings>")[0].split("</meeting>")
+            response.text.split("<meetings>")[1]
+            .split("</meetings>")[0]
+            .split("</meeting>")
         )
-        meeting_items = [Selector(text=m + "</meeting>").xpath("//meeting") for m in meetings_split]
+        meeting_items = [
+            Selector(text=m + "</meeting>").xpath("//meeting") for m in meetings_split
+        ]
         filtered_meetings = [
-            m for m in meeting_items if m.xpath("start/date/text()").extract_first()
+            m
+            for m in meeting_items
+            if m.xpath("start/date/text()").extract_first()
             and "Archive" not in (m.xpath("description/text()").extract_first() or "")
         ]
         for idx, item in enumerate(
@@ -70,7 +76,7 @@ class AkrPublicSchoolsSpider(CityScrapersSpider):
         """Parse next meeting if available"""
         dt_matches = re.findall(
             r"[A-Z][a-z]{2,8} \d{1,2}, \d{4}, at \d{1,2}:\d{2} [apm\.]{2,4}",
-            item.xpath("description/text()").extract_first()
+            item.xpath("description/text()").extract_first(),
         )
         if len(dt_matches) > 1:
             for dt_str in dt_matches[1:]:
@@ -78,7 +84,9 @@ class AkrPublicSchoolsSpider(CityScrapersSpider):
                     title="Board of Education",
                     description="",
                     classification=BOARD,
-                    start=datetime.strptime(dt_str.replace(".", ""), "%B %d, %Y, at %I:%M %p"),
+                    start=datetime.strptime(
+                        dt_str.replace(".", ""), "%B %d, %Y, at %I:%M %p"
+                    ),
                     end=None,
                     time_notes="",
                     all_day=False,
@@ -95,7 +103,7 @@ class AkrPublicSchoolsSpider(CityScrapersSpider):
         title_str = item.xpath("name/text()").extract_first()
         if "board" in title_str.lower():
             return "Board of Education"
-        return re.split(r'\s+at\s+\d', title_str)[0].replace("Meeting", "").strip()
+        return re.split(r"\s+at\s+\d", title_str)[0].replace("Meeting", "").strip()
 
     def _parse_classification(self, title):
         """Parse or generate classification from allowed options."""
@@ -105,10 +113,10 @@ class AkrPublicSchoolsSpider(CityScrapersSpider):
 
     def _parse_start(self, item):
         """Parse start datetime as a naive datetime object."""
-        date_str = (item.xpath('start/date/text()').extract_first() or "").strip()
+        date_str = (item.xpath("start/date/text()").extract_first() or "").strip()
         if not date_str:
             return
-        desc = item.xpath('description/text()').extract_first() or ""
+        desc = item.xpath("description/text()").extract_first() or ""
         time_match = re.search(r"\d{1,2}:\d{2} [apmAPM\.]{2,4}", desc)
         time_str = "12:00 am"
         if time_match:
@@ -124,10 +132,7 @@ class AkrPublicSchoolsSpider(CityScrapersSpider):
         """Parse or generate links."""
         links = []
         if source:
-            links.append({
-                "title": "Agenda",
-                "href": source,
-            })
+            links.append({"title": "Agenda", "href": source})
         return links
 
     def _parse_source(self, item):

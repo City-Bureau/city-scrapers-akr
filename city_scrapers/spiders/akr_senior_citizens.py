@@ -16,7 +16,7 @@ class AkrSeniorCitizensSpider(CityScrapersSpider):
     agency = "Akron Senior Citizens Commission"
     timezone = "America/Detroit"
     start_urls = [
-        "https://city-scrapers-notice-emails.s3.amazonaws.com/akr_senior_citizens/latest.eml"
+        "https://city-scrapers-notice-emails.s3.amazonaws.com/akr_senior_citizens/latest.eml"  # noqa
     ]
     location = {
         "name": "Akron-Summit County Public Library (Meeting Room 2AB)",
@@ -73,7 +73,9 @@ class AkrSeniorCitizensSpider(CityScrapersSpider):
         lp = LAParams(line_margin=5.0)
         out_str = StringIO()
         extract_text_to_fp(BytesIO(pdf_bytes), out_str, laparams=lp)
-        return re.sub(r"[ \t\r]+(?=\n)", "", re.sub(r"[ \t\r]+", " ", out_str.getvalue()))
+        return re.sub(
+            r"[ \t\r]+(?=\n)", "", re.sub(r"[ \t\r]+", " ", out_str.getvalue())
+        )
 
     def _parse_times(self, meeting_str, year_str):
         """Parse start, end datetimes as naive datetime objects."""
@@ -81,8 +83,12 @@ class AkrSeniorCitizensSpider(CityScrapersSpider):
             year_str = str(datetime.now().year)
         date_match = re.search(r"[A-Z][a-z]{2,7} \d{1,2}", meeting_str)
         time_strs = [
-            t[0] for t in
-            re.findall(r"(\d{1,2}( ?[apm\.]{2,4}|:\d{2} ?[apm\.]{2,4}))", meeting_str, flags=re.I)
+            t[0]
+            for t in re.findall(
+                r"(\d{1,2}( ?[apm\.]{2,4}|:\d{2} ?[apm\.]{2,4}))",
+                meeting_str,
+                flags=re.I,
+            )
         ]
         if not (date_match or len(time_strs) == 0):
             return

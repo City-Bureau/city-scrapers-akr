@@ -10,7 +10,7 @@ from city_scrapers.spiders.akr_civil_service import AkrCivilServiceSpider
 
 test_response = file_response(
     join(dirname(__file__), "files", "akr_civil_service.html"),
-    url="https://city-scrapers-notice-emails.s3.amazonaws.com/akr_civil_service/latest.eml",
+    url="https://city-scrapers-notice-emails.s3.amazonaws.com/akr_civil_service/latest.eml",  # noqa
 )
 spider = AkrCivilServiceSpider()
 

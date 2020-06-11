@@ -20,8 +20,8 @@ class AkrUniversitySpider(CityScrapersSpider):
     @property
     def start_urls(self):
         return [
-            "https://www.uakron.edu/bot/board-memos.dot?folderPath=/bot/docs/" +
-            str(datetime.now().year)
+            "https://www.uakron.edu/bot/board-memos.dot?folderPath=/bot/docs/"
+            + str(datetime.now().year)
         ]
 
     def parse(self, response):
@@ -44,10 +44,9 @@ class AkrUniversitySpider(CityScrapersSpider):
                 date_obj = datetime.strptime(date_match.group(), "%B %d %Y").date()
             except ValueError:
                 date_obj = datetime.strptime(date_match.group(), "%b %d %Y").date()
-            link_date_map[date_obj].append({
-                "title": "Materials",
-                "href": response.urljoin(link.attrib["href"]),
-            })
+            link_date_map[date_obj].append(
+                {"title": "Materials", "href": response.urljoin(link.attrib["href"])}
+            )
         return link_date_map
 
     def _parse_schedule(self, response):
@@ -66,10 +65,12 @@ class AkrUniversitySpider(CityScrapersSpider):
             classification = self._parse_classification(title)
             links = []
             if classification == BOARD:
-                links = self.link_date_map[start.date()] + [{
-                    "title": "Livestream",
-                    "href": "https://learn.uakron.edu/video/bot/"
-                }]
+                links = self.link_date_map[start.date()] + [
+                    {
+                        "title": "Livestream",
+                        "href": "https://learn.uakron.edu/video/bot/",
+                    }
+                ]
 
             meeting = Meeting(
                 title=title,

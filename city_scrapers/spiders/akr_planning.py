@@ -34,9 +34,13 @@ class AkrPlanningSpider(CityScrapersSpider):
     def _parse_calendar(self, response):
         """Parse dates and details from schedule PDF"""
         pdf_obj = PdfFileReader(BytesIO(response.body))
-        pdf_text = re.sub(r"\s+", " ", pdf_obj.getPage(0).extractText()).replace(" ,", ",")
+        pdf_text = re.sub(r"\s+", " ", pdf_obj.getPage(0).extractText()).replace(
+            " ,", ","
+        )
 
-        for idx, date_str in enumerate(re.findall(r"[a-zA-Z]{3,10} \d{1,2}, \d{4}", pdf_text)):
+        for idx, date_str in enumerate(
+            re.findall(r"[a-zA-Z]{3,10} \d{1,2}, \d{4}", pdf_text)
+        ):
             # Ignore every other item
             if idx % 2 == 1:
                 continue

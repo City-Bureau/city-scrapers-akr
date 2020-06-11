@@ -14,7 +14,9 @@ class SummDevelopmentFinanceSpider(CityScrapersSpider):
     name = "summ_development_finance"
     agency = "Summit County Development Finance Authority"
     timezone = "America/Detroit"
-    start_urls = ["http://www.developmentfinanceauthority.org/about/scheduled-meetings/"]
+    start_urls = [
+        "http://www.developmentfinanceauthority.org/about/scheduled-meetings/"
+    ]
     location = {
         "name": "4th Floor Conference Room 408",
         "address": "47 N Main St, Akron, OH 44308",
@@ -39,7 +41,9 @@ class SummDevelopmentFinanceSpider(CityScrapersSpider):
                 schedule_urls.append((year_match.group(), link.attrib["href"]))
 
         schedule_url = sorted(schedule_urls, key=lambda s: s[0])[-1][1]
-        yield response.follow(schedule_url, callback=self._parse_schedule, dont_filter=True)
+        yield response.follow(
+            schedule_url, callback=self._parse_schedule, dont_filter=True
+        )
 
     def _parse_schedule(self, response):
         docx_bytes = BytesIO(response.body)
@@ -56,7 +60,9 @@ class SummDevelopmentFinanceSpider(CityScrapersSpider):
         sel = Selector(text=docx_str.getvalue())
         sel.remove_namespaces()
         for row in sel.css("tr"):
-            row_str = re.sub(r"\s+", " ", " ".join(row.css("*::text").extract())).strip()
+            row_str = re.sub(
+                r"\s+", " ", " ".join(row.css("*::text").extract())
+            ).strip()
             date_strs = re.findall(r"[a-zA-Z]{3,9} \d{1,2}", row_str)
             for idx, date_str in enumerate(date_strs):
                 title = self._parse_title(idx)
@@ -82,18 +88,25 @@ class SummDevelopmentFinanceSpider(CityScrapersSpider):
     def _parse_link_date_map(self, response):
         link_date_map = defaultdict(list)
         for link in response.css("section a"):
-            link_text = re.sub(r"\s+", " ", " ".join(link.css("*::text").extract())).strip()
+            link_text = re.sub(
+                r"\s+", " ", " ".join(link.css("*::text").extract())
+            ).strip()
             date_match = re.search(r"\d{4}-\d{1,2}-\d{1,2}", link.attrib["href"])
             if not date_match:
                 continue
             title_str = "Board of Directors"
-            if "committee" in link_text.lower() or "committee" in link.attrib["href"].lower():
+            if (
+                "committee" in link_text.lower()
+                or "committee" in link.attrib["href"].lower()
+            ):
                 title_str = "Executive Committee"
             date_obj = datetime.strptime(date_match.group(), "%Y-%m-%d").date()
-            link_date_map[(title_str, date_obj)].append({
-                "title": "Agenda" if "agenda" in link_text.lower() else link_text,
-                "href": response.urljoin(link.attrib["href"]),
-            })
+            link_date_map[(title_str, date_obj)].append(
+                {
+                    "title": "Agenda" if "agenda" in link_text.lower() else link_text,
+                    "href": response.urljoin(link.attrib["href"]),
+                }
+            )
         return link_date_map
 
     def _parse_title(self, idx):
@@ -110,7 +123,9 @@ class SummDevelopmentFinanceSpider(CityScrapersSpider):
 
     def _parse_start(self, date_str, year_str):
         """Parse start datetime as a naive datetime object."""
-        return datetime.strptime(" ".join([date_str, year_str, "8:30"]), "%b %d %Y %H:%M")
+        return datetime.strptime(
+            " ".join([date_str, year_str, "8:30"]), "%b %d %Y %H:%M"
+        )
 
     def _validate_location(self, response):
         """Parse or generate location."""

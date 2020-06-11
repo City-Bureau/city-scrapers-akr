@@ -47,7 +47,9 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "akr_public_schools/201910071730/x/board_of_education"
+    assert (
+        parsed_items[0]["id"] == "akr_public_schools/201910071730/x/board_of_education"
+    )
 
 
 def test_status():
@@ -59,17 +61,24 @@ def test_location():
 
 
 def test_source():
-    assert parsed_items[0]["source"] == "https://go.boarddocs.com/oh/akron/Board.nsf/Public"
-    assert parsed_items[1][
-        "source"] == "http://go.boarddocs.com/oh/akron/Board.nsf/goto?open&amp;id=BFPP3S6262FE"
+    assert (
+        parsed_items[0]["source"]
+        == "https://go.boarddocs.com/oh/akron/Board.nsf/Public"
+    )
+    assert (
+        parsed_items[1]["source"]
+        == "http://go.boarddocs.com/oh/akron/Board.nsf/goto?open&amp;id=BFPP3S6262FE"
+    )
 
 
 def test_links():
     assert parsed_items[0]["links"] == []
-    assert parsed_items[1]["links"] == [{
-        "href": "http://go.boarddocs.com/oh/akron/Board.nsf/goto?open&amp;id=BFPP3S6262FE",
-        "title": "Agenda"
-    }]
+    assert parsed_items[1]["links"] == [
+        {
+            "href": "http://go.boarddocs.com/oh/akron/Board.nsf/goto?open&amp;id=BFPP3S6262FE",  # noqa
+            "title": "Agenda",
+        }
+    ]
 
 
 def test_classification():

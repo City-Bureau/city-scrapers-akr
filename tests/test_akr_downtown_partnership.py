@@ -47,7 +47,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "akr_downtown_partnership/201909121330/x/northside_district"
+    assert (
+        parsed_items[0]["id"]
+        == "akr_downtown_partnership/201909121330/x/northside_district"
+    )
 
 
 def test_status():

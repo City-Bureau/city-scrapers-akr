@@ -20,7 +20,9 @@ class SummRegionalPlanningSpider(CityScrapersSpider):
         Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
         needs.
         """
-        content = re.split(r"\<p.*\>_+\</p\>", " ".join(response.css("#main").extract()), 1)
+        content = re.split(
+            r"\<p.*\>_+\</p\>", " ".join(response.css("#main").extract()), 1
+        )
         for section in content:
             sel = Selector(text=section)
             title = self._parse_title(sel)
@@ -68,7 +70,9 @@ class SummRegionalPlanningSpider(CityScrapersSpider):
 
     def _parse_start(self, item_str, time_str, year_str):
         """Parse start datetime as a naive datetime object."""
-        date_match = re.search(r"[A-Z][a-z]{2,8} \d{1,2}", re.sub(r"\s+", " ", item_str))
+        date_match = re.search(
+            r"[A-Z][a-z]{2,8} \d{1,2}", re.sub(r"\s+", " ", item_str)
+        )
         if not date_match:
             return
         return datetime.strptime(

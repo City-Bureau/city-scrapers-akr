@@ -28,7 +28,9 @@ def test_count():
 
 
 def test_title():
-    assert parsed_items[0]["title"] == "Urban Design and Historic Preservation Commission"
+    assert (
+        parsed_items[0]["title"] == "Urban Design and Historic Preservation Commission"
+    )
 
 
 def test_description():
@@ -48,9 +50,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0][
-        "id"
-    ] == "akr_urban_design_historic/201901080000/x/urban_design_and_historic_preservation_commission"  # noqa
+    assert (
+        parsed_items[0]["id"]
+        == "akr_urban_design_historic/201901080000/x/urban_design_and_historic_preservation_commission"  # noqa
+    )
 
 
 def test_status():

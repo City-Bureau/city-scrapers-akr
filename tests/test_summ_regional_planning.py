@@ -43,12 +43,16 @@ def test_end():
 
 
 def test_time_notes():
-    assert parsed_items[0]["time_notes"] == "Confirm details with agency before attending"
+    assert (
+        parsed_items[0]["time_notes"] == "Confirm details with agency before attending"
+    )
 
 
 def test_id():
-    assert parsed_items[0]["id"
-                           ] == "summ_regional_planning/201901160830/x/nefco_general_policy_board"
+    assert (
+        parsed_items[0]["id"]
+        == "summ_regional_planning/201901160830/x/nefco_general_policy_board"
+    )
 
 
 def test_status():

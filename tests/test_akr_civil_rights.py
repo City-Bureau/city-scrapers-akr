@@ -10,7 +10,7 @@ from city_scrapers.spiders.akr_civil_rights import AkrCivilRightsSpider
 
 test_response = file_response(
     join(dirname(__file__), "files", "akr_civil_rights.eml"),
-    url="https://city-scrapers-notice-emails.s3.amazonaws.com/akr_civil_rights/latest.eml",
+    url="https://city-scrapers-notice-emails.s3.amazonaws.com/akr_civil_rights/latest.eml",  # noqa
 )
 spider = AkrCivilRightsSpider()
 
@@ -47,7 +47,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "akr_civil_rights/201910011630/x/civil_rights_commission"
+    assert (
+        parsed_items[0]["id"]
+        == "akr_civil_rights/201910011630/x/civil_rights_commission"
+    )
 
 
 def test_status():

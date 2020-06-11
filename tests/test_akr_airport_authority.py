@@ -10,7 +10,7 @@ from city_scrapers.spiders.akr_airport_authority import AkrAirportAuthoritySpide
 
 test_response = file_response(
     join(dirname(__file__), "files", "akr_airport_authority.eml"),
-    url="https://city-scrapers-notice-emails.s3.amazonaws.com/akr_airport_authority/latest.eml",
+    url="https://city-scrapers-notice-emails.s3.amazonaws.com/akr_airport_authority/latest.eml",  # noqa
 )
 spider = AkrAirportAuthoritySpider()
 
@@ -47,7 +47,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "akr_airport_authority/201910171500/x/board_of_trustees"
+    assert (
+        parsed_items[0]["id"]
+        == "akr_airport_authority/201910171500/x/board_of_trustees"
+    )
 
 
 def test_status():
@@ -59,9 +62,7 @@ def test_location():
 
 
 def test_source():
-    assert parsed_items[0][
-        "source"
-    ] == "https://city-scrapers-notice-emails.s3.amazonaws.com/akr_airport_authority/latest.eml"
+    assert parsed_items[0]["source"] == test_response.url
 
 
 def test_links():

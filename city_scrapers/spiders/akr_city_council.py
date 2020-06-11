@@ -36,9 +36,11 @@ class AkrCityCouncilSpider(CityScrapersSpider):
         today = datetime.now()
         start = today - timedelta(days=30)
         end = today + timedelta(days=30)
-        return [(
-            "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Meetings/Search?dropid=11&mtids=101&dropsv={}&dropev={}"  # noqa
-        ).format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))]
+        return [
+            (
+                "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Meetings/Search?dropid=11&mtids=101&dropsv={}&dropev={}"  # noqa
+            ).format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        ]
 
     def parse(self, response):
         """
@@ -57,19 +59,24 @@ class AkrCityCouncilSpider(CityScrapersSpider):
                     r"downloadfile",
                     "ViewDocument",
                     item.css("td:last-child a::attr(href)").extract()[-1],
-                    flags=re.I
+                    flags=re.I,
                 )
                 yield response.follow(
                     agenda_link,
                     callback=self._parse_detail,
-                    cb_kwargs={"links": [{
-                        "title": "Agenda",
-                        "href": response.urljoin(pdf_link),
-                    }]},
-                    dont_filter=True
+                    cb_kwargs={
+                        "links": [
+                            {"title": "Agenda", "href": response.urljoin(pdf_link)}
+                        ]
+                    },
+                    dont_filter=True,
                 )
             else:
-                start_str = item.css("[data-sortable-type='mtgTime']::text").extract_first().strip()
+                start_str = (
+                    item.css("[data-sortable-type='mtgTime']::text")
+                    .extract_first()
+                    .strip()
+                )
                 meeting = Meeting(
                     title="City Council",
                     start=datetime.strptime(start_str, "%m/%d/%Y %I:%M:%S %p"),
@@ -112,7 +119,9 @@ class AkrCityCouncilSpider(CityScrapersSpider):
         for time_cell, title_cell in grouper(2, committee_cells):
             if len(time_cell.css("[style*='line-through']")) > 0:
                 continue
-            time_str = re.sub(r"[\.\s]", "", " ".join(time_cell.css("*::text").extract()))
+            time_str = re.sub(
+                r"[\.\s]", "", " ".join(time_cell.css("*::text").extract())
+            )
             if not re.search(r"\d{1,2}:\d{1,2}[apmAPM]{2}", time_str):
                 continue
             start_time = datetime.strptime(time_str, "%I:%M%p").time()

@@ -13,7 +13,7 @@ class AkrCivilServiceSpider(CityScrapersSpider):
     agency = "Akron Civil Service Commission"
     timezone = "America/Detroit"
     start_urls = [
-        "https://city-scrapers-notice-emails.s3.amazonaws.com/akr_civil_service/latest.eml"
+        "https://city-scrapers-notice-emails.s3.amazonaws.com/akr_civil_service/latest.eml"  # noqa
     ]
     location = {
         "name": "City Hall, Council Chambers",
@@ -74,4 +74,6 @@ class AkrCivilServiceSpider(CityScrapersSpider):
         if ":" in start_time_str:
             time_fmt = "%I:%M%p"
 
-        return datetime.strptime(" ".join([start_date_str, start_time_str]), "%B %d %Y " + time_fmt)
+        return datetime.strptime(
+            " ".join([start_date_str, start_time_str]), "%B %d %Y " + time_fmt
+        )

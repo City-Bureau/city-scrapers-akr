@@ -6,7 +6,9 @@ from city_scrapers_core.constants import COMMITTEE, PASSED
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
-from city_scrapers.spiders.summ_social_services_advisory import SummSocialServicesAdvisorySpider
+from city_scrapers.spiders.summ_social_services_advisory import (
+    SummSocialServicesAdvisorySpider,
+)
 
 test_response = file_response(
     join(dirname(__file__), "files", "summ_social_services_advisory.eml"),
@@ -49,8 +51,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0][
-        "id"] == "summ_social_services_advisory/201901171400/x/health_and_human_services_committee"
+    assert (
+        parsed_items[0]["id"]
+        == "summ_social_services_advisory/201901171400/x/health_and_human_services_committee"  # noqa
+    )
 
 
 def test_status():

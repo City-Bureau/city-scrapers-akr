@@ -35,7 +35,9 @@ class SummLandBankSpider(CityScrapersSpider):
         if "minutes" in response.url.lower():
             yield response.follow("/board-meeting-agendas", callback=self.parse)
         else:
-            yield response.follow("/board-meeting-notices", callback=self._parse_notice_page)
+            yield response.follow(
+                "/board-meeting-notices", callback=self._parse_notice_page
+            )
 
     def _parse_documents(self, response):
         """Parse documents pages, adding to link_date_map"""
@@ -49,11 +51,12 @@ class SummLandBankSpider(CityScrapersSpider):
             date_match = re.search(r"[A-Z][a-z]{2,8} \d{1,2},? \d{4}", link_str)
             if not date_match:
                 continue
-            date_obj = datetime.strptime(date_match.group().replace(",", ""), "%B %d %Y").date()
-            self.link_date_map[date_obj].append({
-                "title": link_title,
-                "href": response.urljoin(link.attrib["href"]),
-            })
+            date_obj = datetime.strptime(
+                date_match.group().replace(",", ""), "%B %d %Y"
+            ).date()
+            self.link_date_map[date_obj].append(
+                {"title": link_title, "href": response.urljoin(link.attrib["href"])}
+            )
 
     def _parse_notice_page(self, response):
         """Parse meetings from text or notice pages (if available)"""
@@ -65,16 +68,15 @@ class SummLandBankSpider(CityScrapersSpider):
                     link.attrib["href"],
                     callback=self._parse_notice,
                     dont_filter=True,
-                    meta={
-                        "meeting_text": item_str,
-                        "source": response.url
-                    },
+                    meta={"meeting_text": item_str, "source": response.url},
                 )
             else:
                 yield self._parse_meeting_text(item_str, response.url)
 
     def _parse_notice(self, response):
-        """Parse meeting from notice text if embedded text, otherwise use meeting text in meta"""
+        """
+        Parse meeting from notice text if embedded text, otherwise use text in meta
+        """
         lp = LAParams(line_margin=0.1)
         out_str = StringIO()
         extract_text_to_fp(BytesIO(response.body), out_str, laparams=lp)
@@ -86,10 +88,18 @@ class SummLandBankSpider(CityScrapersSpider):
                 r"[A-Z][a-z]{2,8} \d{1,2},? \d{4}", response.meta["meeting_text"]
             )
             if date_match:
-                date_obj = datetime.strptime(date_match.group().replace(",", ""), "%B %d %Y").date()
-                if "Notice" not in [link["title"] for link in self.link_date_map[date_obj]]:
-                    self.link_date_map[date_obj].append({"title": "Notice", "href": response.url})
-            yield self._parse_meeting_text(re.sub(r"\s+", " ", pdf_text), response.meta["source"])
+                date_obj = datetime.strptime(
+                    date_match.group().replace(",", ""), "%B %d %Y"
+                ).date()
+                if "Notice" not in [
+                    link["title"] for link in self.link_date_map[date_obj]
+                ]:
+                    self.link_date_map[date_obj].append(
+                        {"title": "Notice", "href": response.url}
+                    )
+            yield self._parse_meeting_text(
+                re.sub(r"\s+", " ", pdf_text), response.meta["source"]
+            )
 
     def _parse_meeting_text(self, meeting_text, source):
         start = self._parse_start(meeting_text)
@@ -136,7 +146,9 @@ class SummLandBankSpider(CityScrapersSpider):
         dt_fmt = "%B %d %Y %I%p"
         if ":" in time_str:
             dt_fmt = "%B %d %Y %I:%M%p"
-        return datetime.strptime(" ".join([date_match.group().replace(",", ""), time_str]), dt_fmt)
+        return datetime.strptime(
+            " ".join([date_match.group().replace(",", ""), time_str]), dt_fmt
+        )
 
     def _parse_location(self, item_str):
         """Parse or generate location."""

@@ -11,7 +11,7 @@ class SummBoardControlSpider(CityScrapersSpider):
     agency = "Summit County Board of Control"
     timezone = "America/Detroit"
     start_urls = [
-        "https://co.summitoh.net/index.php/offices/boards-agencies-a-commissions/board-of-control"
+        "https://co.summitoh.net/index.php/offices/boards-agencies-a-commissions/board-of-control"  # noqa
     ]
     location = {
         "name": "Council Chambers",
@@ -33,14 +33,15 @@ class SummBoardControlSpider(CityScrapersSpider):
                 and "minutes" not in link.attrib["href"].lower()
             ):
                 continue
-            link_title = "Agenda" if "agenda" in link.attrib["href"].lower() else "Minutes"
+            link_title = (
+                "Agenda" if "agenda" in link.attrib["href"].lower() else "Minutes"
+            )
             start = self._parse_start(link)
             if not start:
                 continue
-            date_link_map[start].append({
-                "title": link_title,
-                "href": response.urljoin(link.attrib["href"]),
-            })
+            date_link_map[start].append(
+                {"title": link_title, "href": response.urljoin(link.attrib["href"])}
+            )
 
         start_list = sorted([k for k in date_link_map.keys() if k], reverse=True)
         # Use the most recent 20 meetings

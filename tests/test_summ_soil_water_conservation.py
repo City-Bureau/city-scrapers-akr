@@ -6,11 +6,13 @@ from city_scrapers_core.constants import BOARD, TENTATIVE
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
-from city_scrapers.spiders.summ_soil_water_conservation import SummSoilWaterConservationSpider
+from city_scrapers.spiders.summ_soil_water_conservation import (
+    SummSoilWaterConservationSpider,
+)
 
 test_response = file_response(
     join(dirname(__file__), "files", "summ_soil_water_conservation.json"),
-    url="https://clients6.google.com/calendar/v3/calendars/staffsummitswcd@gmail.com/events?",
+    url="https://clients6.google.com/calendar/v3/calendars/staffsummitswcd@gmail.com/events?",  # noqa
 )
 spider = SummSoilWaterConservationSpider()
 
@@ -47,7 +49,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "summ_soil_water_conservation/201910221000/x/summit_swcd_board"
+    assert (
+        parsed_items[0]["id"]
+        == "summ_soil_water_conservation/201910221000/x/summit_swcd_board"
+    )
 
 
 def test_status():
@@ -57,7 +62,7 @@ def test_status():
 def test_location():
     assert parsed_items[0]["location"] == {
         "name": "Coventry Oaks Pavilion - Firestone Metro Park",
-        "address": "40 Axline Ave, Akron, OH 44319, USA"
+        "address": "40 Axline Ave, Akron, OH 44319, USA",
     }
 
 

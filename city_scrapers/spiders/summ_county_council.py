@@ -31,14 +31,18 @@ class SummCountyCouncilSpider(CityScrapersSpider):
         earliest_month = this_month - relativedelta(months=2)
         groups = []
         for year in set([earliest_month.year, this_month.year]):
-            groups.extend([
-                ("agendas", "committee", year),
-                ("minutes", "committee", year),
-                ("agendas", "council", year),
-                ("minutes", "council", year),
-            ])
+            groups.extend(
+                [
+                    ("agendas", "committee", year),
+                    ("minutes", "committee", year),
+                    ("agendas", "council", year),
+                    ("minutes", "council", year),
+                ]
+            )
         return [
-            "https://council.summitoh.net/index.php/legislative-information/{}/{}/{}".format(*g)
+            (
+                "https://council.summitoh.net/index.php/legislative-information/{}/{}/{}"  # noqa
+            ).format(*g)
             for g in groups
         ]
 
@@ -78,10 +82,9 @@ class SummCountyCouncilSpider(CityScrapersSpider):
         for link in response.css("td a.jd_download_url"):
             date_str = link.css("*::text").extract_first().split(" ")[0]
             date_obj = datetime.strptime(date_str, "%m-%d-%y").date()
-            self.link_map[(body_type, date_obj)].append({
-                "title": link_title,
-                "href": response.urljoin(link.attrib["href"]),
-            })
+            self.link_map[(body_type, date_obj)].append(
+                {"title": link_title, "href": response.urljoin(link.attrib["href"])}
+            )
 
     def _parse_calendar(self, response):
         year_str = response.url[-8:-4]
@@ -100,7 +103,7 @@ class SummCountyCouncilSpider(CityScrapersSpider):
                 time_notes="",
                 location=self.location,
                 links=self._parse_links(title, start),
-                source=response.url
+                source=response.url,
             )
 
             meeting["status"] = self._get_status(meeting, text=" ".join(item.extract()))
@@ -118,8 +121,11 @@ class SummCountyCouncilSpider(CityScrapersSpider):
 
     def _parse_start_end(self, item, year_str):
         """Parse start, end datetimes as naive datetime objects."""
-        date_str = " ".join(item.css("td:first-child a.psf *::text").extract()
-                            ).strip().split(", ")[-1]
+        date_str = (
+            " ".join(item.css("td:first-child a.psf *::text").extract())
+            .strip()
+            .split(", ")[-1]
+        )
         time_str = " ".join(item.css("td:first-child span *::text").extract()).strip()
         start_str, end_str = time_str.split(" - ")
         return (

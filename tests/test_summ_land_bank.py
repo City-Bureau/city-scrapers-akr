@@ -22,7 +22,7 @@ test_notice_response = file_response(
     url=(
         "https://static1.squarespace.com/static/563cae01e4b0de6b06b1e023/t/5c9cd00ae79c70c4d6913817/1553780746707/SCLRC+Public+Notice+03-29-19.pdf"  # noqa
     ),
-    mode="rb"
+    mode="rb",
 )
 
 spider = SummLandBankSpider()
@@ -74,8 +74,10 @@ def test_time_notes(parsed_item):
 
 
 def test_id(parsed_item):
-    assert parsed_item["id"
-                       ] == "summ_land_bank/201903290900/x/board_of_directors_meeting_and_retreat"
+    assert (
+        parsed_item["id"]
+        == "summ_land_bank/201903290900/x/board_of_directors_meeting_and_retreat"
+    )
 
 
 def test_status():
@@ -98,14 +100,13 @@ def test_source(parsed_item):
 def test_links(parsed_item):
     assert parsed_item["links"] == [
         {
-            "href": "http://www.summitlandbank.org/s/SLCRC-DRAFT-Agenda-03-29-19-3m3l.pdf",
-            "title": "Agenda"
+            "href": "http://www.summitlandbank.org/s/SLCRC-DRAFT-Agenda-03-29-19-3m3l.pdf",  # noqa
+            "title": "Agenda",
         },
         {
-            "href":
-                "https://static1.squarespace.com/static/563cae01e4b0de6b06b1e023/t/5c9cd00ae79c70c4d6913817/1553780746707/SCLRC+Public+Notice+03-29-19.pdf",  # noqa
-            "title": "Notice"
-        }
+            "href": "https://static1.squarespace.com/static/563cae01e4b0de6b06b1e023/t/5c9cd00ae79c70c4d6913817/1553780746707/SCLRC+Public+Notice+03-29-19.pdf",  # noqa
+            "title": "Notice",
+        },
     ]
 
 

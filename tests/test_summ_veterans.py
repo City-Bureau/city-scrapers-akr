@@ -10,7 +10,7 @@ from city_scrapers.spiders.summ_veterans import SummVeteransSpider
 
 test_response = file_response(
     join(dirname(__file__), "files", "summ_veterans.json"),
-    url="https://clients6.google.com/calendar/v3/calendars/vscsummitcalendar@gmail.com/events"
+    url="https://clients6.google.com/calendar/v3/calendars/vscsummitcalendar@gmail.com/events",  # noqa
 )
 spider = SummVeteransSpider()
 
@@ -47,7 +47,9 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "summ_veterans/201910091300/x/board_of_commissioners"
+    assert (
+        parsed_items[0]["id"] == "summ_veterans/201910091300/x/board_of_commissioners"
+    )
 
 
 def test_status():

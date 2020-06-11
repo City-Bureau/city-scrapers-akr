@@ -17,15 +17,16 @@ class SummSoilWaterConservationSpider(CityScrapersSpider):
         today = datetime.now()
         last_week = today - timedelta(days=7)
         in_two_months = today + timedelta(days=60)
-        return [(
-            "https://clients6.google.com/calendar/v3/calendars/staffsummitswcd@gmail.com/events"
-            "?calendarId=staffsummitswcd@gmail.com&singleEvents=true&timeZone=America%2FNew_York&"
-            "sanitizeHtml=true&timeMin={}T00:00:00-04:00&timeMax={}T00:00:00-04:00&"
-            "key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs"
-        ).format(
-            last_week.strftime("%Y-%m-%d"),
-            in_two_months.strftime("%Y-%m-%d"),
-        )]
+        return [
+            (
+                "https://clients6.google.com/calendar/v3/calendars/staffsummitswcd@gmail.com/events"  # noqa
+                "?calendarId=staffsummitswcd@gmail.com&singleEvents=true&timeZone=America%2FNew_York&"  # noqa
+                "sanitizeHtml=true&timeMin={}T00:00:00-04:00&timeMax={}T00:00:00-04:00&"
+                "key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs"
+            ).format(
+                last_week.strftime("%Y-%m-%d"), in_two_months.strftime("%Y-%m-%d"),
+            )
+        ]
 
     def parse(self, response):
         data = json.loads(response.text)

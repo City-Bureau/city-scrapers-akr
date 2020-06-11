@@ -10,7 +10,9 @@ class SummOpiateTaskForceSpider(CityScrapersSpider):
     name = "summ_opiate_task_force"
     agency = "Summit County Opiate and Addiction Task Force"
     timezone = "America/Detroit"
-    start_urls = ["https://www.summitcountyaddictionhelp.org/opiate-task-force-members.aspx"]
+    start_urls = [
+        "https://www.summitcountyaddictionhelp.org/opiate-task-force-members.aspx"
+    ]
     location = {
         "name": "Summit County Public Health Department Auditorium",
         "address": "1867 W Market Street, Akron, OH 44313",
@@ -55,7 +57,9 @@ class SummOpiateTaskForceSpider(CityScrapersSpider):
         date_match = re.search(r"[A-Z][a-z]{2,8} \d{1,2},? \d{4}", item_str)
         if not date_match:
             return
-        return datetime.strptime(date_match.group().replace(",", "") + "16", "%B %d %Y%H")
+        return datetime.strptime(
+            date_match.group().replace(",", "") + "16", "%B %d %Y%H"
+        )
 
     def _validate_location(self, description):
         if "1867" not in description:
@@ -69,9 +73,10 @@ class SummOpiateTaskForceSpider(CityScrapersSpider):
         """Parse or generate links."""
         links = []
         for link in item.css("a"):
-            link_title = "Agenda" if "agenda" in link.attrib["href"].lower() else "Minutes"
-            links.append({
-                "title": link_title,
-                "href": response.urljoin(link.attrib["href"]),
-            })
+            link_title = (
+                "Agenda" if "agenda" in link.attrib["href"].lower() else "Minutes"
+            )
+            links.append(
+                {"title": link_title, "href": response.urljoin(link.attrib["href"])}
+            )
         return links

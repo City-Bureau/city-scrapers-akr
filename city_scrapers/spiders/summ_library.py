@@ -29,10 +29,12 @@ class SummLibrarySpider(CityScrapersSpider):
                 link_str = minutes.attrib["data-content"]
                 link_month = link_str.split()[0]
                 link_title = " ".join(link_str.split()[2:])
-                minutes_map[year_str + link_month].append({
-                    "title": link_title,
-                    "href": response.urljoin(minutes.attrib["href"]),
-                })
+                minutes_map[year_str + link_month].append(
+                    {
+                        "title": link_title,
+                        "href": response.urljoin(minutes.attrib["href"]),
+                    }
+                )
         return minutes_map
 
     def _parse_meetings(self, response):

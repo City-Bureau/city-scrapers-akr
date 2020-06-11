@@ -100,7 +100,7 @@ class AkrDowntownPartnershipSpider(CityScrapersSpider):
         if "Library" in loc_str:
             return {
                 "name": "Akron Summit County Public Library",
-                "address": "60 S High St, Akron, OH 44326"
+                "address": "60 S High St, Akron, OH 44326",
             }
         return {
             "name": "TBD",

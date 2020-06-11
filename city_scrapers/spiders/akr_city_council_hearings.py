@@ -26,13 +26,15 @@ class AkrCityCouncilHearingsSpider(CityScrapersSpider):
         """
         script_str = response.css(".events-tray script::text").extract_first()
         data_str = re.search(r"(?<=events = ).*?(?=;)", script_str).group()
-        # Only pull meetings a max of 90 days into the future (since most automatically repeat)
+        # Only pull meetings a max of 90 days into the future (since most automatically
+        # repeat)
         max_dt = datetime.now() + timedelta(days=90)
 
         for item in json.loads(data_str):
             # Ignore non-meetings or regular City Council/Committee meetings
             if (
-                item["location"] == "City of Akron" or "Council" in item["Name"]
+                item["location"] == "City of Akron"
+                or "Council" in item["Name"]
                 or "Trick" in item["Name"]
             ):
                 continue
@@ -72,8 +74,8 @@ class AkrCityCouncilHearingsSpider(CityScrapersSpider):
 
     def _parse_location(self, item):
         """Parse or generate location."""
-        # If the location starts with a number, assume it's an address. Otherwise use the text
-        # before the first comma as the location name
+        # If the location starts with a number, assume it's an address. Otherwise use
+        # the text before the first comma as the location name
         if "Council Chambers" in item["location"]:
             return self.location
 

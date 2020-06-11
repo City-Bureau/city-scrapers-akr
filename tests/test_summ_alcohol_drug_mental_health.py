@@ -6,7 +6,9 @@ from city_scrapers_core.constants import BOARD, PASSED
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
-from city_scrapers.spiders.summ_alcohol_drug_mental_health import SummAlcoholDrugMentalHealthSpider
+from city_scrapers.spiders.summ_alcohol_drug_mental_health import (
+    SummAlcoholDrugMentalHealthSpider,
+)
 
 test_docs_response = file_response(
     join(dirname(__file__), "files", "summ_alcohol_drug_mental_health_minutes.html"),
@@ -48,7 +50,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_item["id"] == "summ_alcohol_drug_mental_health/201907231730/x/board_of_directors"
+    assert (
+        parsed_item["id"]
+        == "summ_alcohol_drug_mental_health/201907231730/x/board_of_directors"
+    )
 
 
 def test_status():
@@ -69,15 +74,13 @@ def test_source():
 def test_links():
     assert parsed_item["links"] == [
         {
-            "href":
-                "https://www.admboard.org/Data/Sites/25/Assets/pdfs/BOD Minutes/bod-min-7.23.19-final-app-09.24.19.pdf",  # noqa
-            "title": "Minutes"
+            "href": "https://www.admboard.org/Data/Sites/25/Assets/pdfs/BOD Minutes/bod-min-7.23.19-final-app-09.24.19.pdf",  # noqa
+            "title": "Minutes",
         },
         {
             "title": "Agenda",
-            "href":
-                "https://www.admboard.org/Data/Sites/25/adm-bod-mtg-notice-agenda-pkt-7.23.19.pdf"
-        }
+            "href": "https://www.admboard.org/Data/Sites/25/adm-bod-mtg-notice-agenda-pkt-7.23.19.pdf",  # noqa
+        },
     ]
 
 

@@ -7,7 +7,7 @@ from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
 from city_scrapers.spiders.summ_developmental_disabilities import (
-    SummDevelopmentalDisabilitiesSpider
+    SummDevelopmentalDisabilitiesSpider,
 )
 
 test_response = file_response(
@@ -64,8 +64,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_item[
-        "id"] == "summ_developmental_disabilities/201909261730/x/developmental_disabilities_board"
+    assert (
+        parsed_item["id"]
+        == "summ_developmental_disabilities/201909261730/x/developmental_disabilities_board"  # noqa
+    )
 
 
 def test_status():
@@ -86,20 +88,17 @@ def test_source():
 def test_links():
     assert parsed_item["links"] == [
         {
-            "href":
-                "https://s3-us-east-2.amazonaws.com/s3.summitdd.org/wp-content/uploads/2019/09/Agenda-September-2019.pdf",  # noqa
-            "title": "Agenda - September 2019"
+            "href": "https://s3-us-east-2.amazonaws.com/s3.summitdd.org/wp-content/uploads/2019/09/Agenda-September-2019.pdf",  # noqa
+            "title": "Agenda - September 2019",
         },
         {
-            "href":
-                "https://s3-us-east-2.amazonaws.com/s3.summitdd.org/wp-content/uploads/2019/09/SUNSHINE-LAW-NOTICE.pdf",  # noqa
-            "title": "SUNSHINE LAW NOTICE"
+            "href": "https://s3-us-east-2.amazonaws.com/s3.summitdd.org/wp-content/uploads/2019/09/SUNSHINE-LAW-NOTICE.pdf",  # noqa
+            "title": "SUNSHINE LAW NOTICE",
         },
         {
-            "href":
-                "https://s3-us-east-2.amazonaws.com/s3.summitdd.org/wp-content/uploads/2019/09/Board-Packet-September-2019.pdf",  # noqa
-            "title": "Board Packet - September 2019"
-        }
+            "href": "https://s3-us-east-2.amazonaws.com/s3.summitdd.org/wp-content/uploads/2019/09/Board-Packet-September-2019.pdf",  # noqa
+            "title": "Board Packet - September 2019",
+        },
     ]
 
 

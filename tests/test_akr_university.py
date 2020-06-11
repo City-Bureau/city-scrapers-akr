@@ -70,14 +70,10 @@ def test_source():
 def test_links():
     assert parsed_items[0]["links"] == [
         {
-            "href":
-                "https://www.uakron.edu/bot/docs/2019/Board book for August 14 2019 updated 09042019.pdf",  # noqa
-            "title": "Materials"
+            "href": "https://www.uakron.edu/bot/docs/2019/Board book for August 14 2019 updated 09042019.pdf",  # noqa
+            "title": "Materials",
         },
-        {
-            "title": "Livestream",
-            "href": "https://learn.uakron.edu/video/bot/"
-        }
+        {"title": "Livestream", "href": "https://learn.uakron.edu/video/bot/"},
     ]
 
 

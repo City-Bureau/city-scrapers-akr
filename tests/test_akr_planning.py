@@ -60,8 +60,10 @@ def test_location():
 
 
 def test_source():
-    assert parsed_items[0]["source"
-                           ] == "https://www.akronohio.gov/cms/site/2387094f0d307b46/index.html"
+    assert (
+        parsed_items[0]["source"]
+        == "https://www.akronohio.gov/cms/site/2387094f0d307b46/index.html"
+    )
 
 
 def test_links():

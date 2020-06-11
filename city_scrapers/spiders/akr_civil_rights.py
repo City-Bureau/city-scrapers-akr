@@ -16,7 +16,7 @@ class AkrCivilRightsSpider(CityScrapersSpider):
     agency = "Akron Civil Rights Commission"
     timezone = "America/Detroit"
     start_urls = [
-        "https://city-scrapers-notice-emails.s3.amazonaws.com/akr_civil_rights/latest.eml"
+        "https://city-scrapers-notice-emails.s3.amazonaws.com/akr_civil_rights/latest.eml"  # noqa
     ]
     location = {
         "name": "Akron City Council, Meeting Room 1",
@@ -80,19 +80,21 @@ class AkrCivilRightsSpider(CityScrapersSpider):
     def _parse_start(self, detail):
         """Parse start datetime as a naive datetime object."""
         all_date_strs = re.findall(r"[A-Z][a-z]{2,8} \d{1,2},? \d{4}", detail)
-        # Get all date strings that aren't followed by "Notice" (meaning they aren't the intro)
+        # Get all date strings that aren't followed by "Notice"
+        # (meaning they aren't the intro)
         date_strs = re.findall(r"[A-Z][a-z]{2,8} \d{1,2},? \d{4}(?! Notice)", detail)
         # Return nothing if no dates found
         if len(all_date_strs) == 0 or len(date_strs) == 0:
             return
         if len(date_strs) >= 1:
             date_str = date_strs[0]
-        # If there are two date strings and all matched, skip the first because it likely means the
-        # check against the document date failed
+        # If there are two date strings and all matched, skip the first because it
+        # likely means the check against the document date failed
         if len(date_strs) == 2 and len(all_date_strs) == 2:
             date_str = date_strs[1]
         time_strs = [
-            s[0] for s in re.findall(r"(\d{1,2}(:\d{2}) [apm\.]{2,4})", detail, flags=re.I)
+            s[0]
+            for s in re.findall(r"(\d{1,2}(:\d{2}) [apm\.]{2,4})", detail, flags=re.I)
         ]
         time_str = "12:00 am"
         if len(time_strs) > 0:

@@ -47,8 +47,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0][
-        "id"] == "summ_opiate_task_force/201903201600/x/key_stakeholders_quarterly_meeting"
+    assert (
+        parsed_items[0]["id"]
+        == "summ_opiate_task_force/201903201600/x/key_stakeholders_quarterly_meeting"
+    )
 
 
 def test_status():
@@ -64,11 +66,12 @@ def test_source():
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [{
-        "href":
-            "https://www.summitcountyaddictionhelp.org/Data/Sites/19/meeting-notes/scoatf_pqm/otf-stakeholders-mtg-notes-3.20.19.pdf",  # noqa
-        "title": "Minutes"
-    }]
+    assert parsed_items[0]["links"] == [
+        {
+            "href": "https://www.summitcountyaddictionhelp.org/Data/Sites/19/meeting-notes/scoatf_pqm/otf-stakeholders-mtg-notes-3.20.19.pdf",  # noqa
+            "title": "Minutes",
+        }
+    ]
 
 
 def test_classification():

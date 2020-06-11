@@ -39,7 +39,9 @@ class SummDevelopmentalDisabilitiesSpider(CityScrapersSpider):
         """
         data = json.loads(response.text)
         for item in data:
-            yield response.follow(item["url"], callback=self._parse_detail, dont_filter=True)
+            yield response.follow(
+                item["url"], callback=self._parse_detail, dont_filter=True
+            )
 
     def _parse_detail(self, response):
         start = self._parse_start(response)
@@ -66,10 +68,7 @@ class SummDevelopmentalDisabilitiesSpider(CityScrapersSpider):
         yield response.follow(
             (
                 "/about/summit-dd-board/board-meetings/{}-meeting-documents/{}-board-meeting-documents/"  # noqa
-            ).format(
-                start.year,
-                start.strftime("%B").lower(),
-            ),
+            ).format(start.year, start.strftime("%B").lower(),),
             callback=self._parse_links,
             dont_filter=True,
         )
@@ -92,7 +91,9 @@ class SummDevelopmentalDisabilitiesSpider(CityScrapersSpider):
     def _parse_location(self, response):
         """Parse or generate location."""
         loc_parts = [
-            p.strip() for p in response.css(".location-address::text").extract() if p.strip()
+            p.strip()
+            for p in response.css(".location-address::text").extract()
+            if p.strip()
         ]
         # Likely remote
         if len(loc_parts) == 0:
@@ -100,13 +101,15 @@ class SummDevelopmentalDisabilitiesSpider(CityScrapersSpider):
         if loc_parts[1][0].isdigit():
             return {
                 "name": loc_parts[0].replace("\u2013", "-"),
-                "address": " ".join(loc_parts[1:]).strip()
+                "address": " ".join(loc_parts[1:]).strip(),
             }
         return {"name": "", "address": " ".join(loc_parts)}
 
     def _parse_links(self, response):
         """Parse or generate links."""
-        month_year_match = re.search(r"(?P<year>\d{4}).*(?<=/)(?P<month>[a-z]+)", response.url)
+        month_year_match = re.search(
+            r"(?P<year>\d{4}).*(?<=/)(?P<month>[a-z]+)", response.url
+        )
         year_str = month_year_match.group("year")
         month_str = month_year_match.group("month").title()
         date_obj = datetime.strptime(year_str + month_str, "%Y%B").date()
@@ -116,8 +119,12 @@ class SummDevelopmentalDisabilitiesSpider(CityScrapersSpider):
             return
 
         for link in response.css(".entry-content a"):
-            meeting["links"].append({
-                "title": " ".join(link.css("*::text").extract()).strip().replace("\u2013", "-"),
-                "href": response.urljoin(link.attrib["href"]),
-            })
+            meeting["links"].append(
+                {
+                    "title": " ".join(link.css("*::text").extract())
+                    .strip()
+                    .replace("\u2013", "-"),
+                    "href": response.urljoin(link.attrib["href"]),
+                }
+            )
         yield meeting

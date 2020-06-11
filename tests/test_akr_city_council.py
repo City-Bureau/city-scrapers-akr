@@ -19,11 +19,12 @@ test_detail_response = file_response(
     ),
 )
 
-EXPECTED_LINKS = [{
-    "title": "Agenda",
-    "href":
-        "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Documents/ViewDocument/November_25%2c_2019_271_Agenda_11_25_2019_7_00_00_PM.pdf?documentType=1&meetingId=271"  # noqa
-}]
+EXPECTED_LINKS = [
+    {
+        "title": "Agenda",
+        "href": "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Documents/ViewDocument/November_25%2c_2019_271_Agenda_11_25_2019_7_00_00_PM.pdf?documentType=1&meetingId=271",  # noqa
+    }
+]
 
 spider = AkrCityCouncilSpider()
 
@@ -31,7 +32,9 @@ freezer = freeze_time("2019-09-16")
 freezer.start()
 
 parsed_filter_items = [item for item in spider.parse(test_response)]
-parsed_items = [item for item in spider._parse_detail(test_detail_response, links=EXPECTED_LINKS)]
+parsed_items = [
+    item for item in spider._parse_detail(test_detail_response, links=EXPECTED_LINKS)
+]
 
 freezer.stop()
 
@@ -76,9 +79,10 @@ def test_location():
 
 
 def test_source():
-    assert parsed_items[0][
-        "source"
-    ] == "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Documents/ViewAgenda?meetingId=262&doctype=1"  # noqa
+    assert (
+        parsed_items[0]["source"]
+        == "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Documents/ViewAgenda?meetingId=262&doctype=1"  # noqa
+    )
 
 
 def test_links():

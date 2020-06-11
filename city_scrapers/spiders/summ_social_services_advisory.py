@@ -53,24 +53,38 @@ class SummSocialServicesAdvisorySpider(CityScrapersSpider):
         # Remove MS Word namespaces on tags to use selectors
         sel = Selector(text=docx_str.getvalue())
         sel.remove_namespaces()
-        year_str = "".join([
-            p.strip()
-            for p in sel.css("tbl > tr")[:1].css("tc:first-of-type")[:1].css("*::text").extract()
-            if p.strip()
-        ])
-        for table in sel.css("tbl"):
-            month_str = "".join([
+        year_str = "".join(
+            [
                 p.strip()
-                for p in table.css("tr")[1:2].css("tc:first-of-type")[:1].css("*::text").extract()
+                for p in sel.css("tbl > tr")[:1]
+                .css("tc:first-of-type")[:1]
+                .css("*::text")
+                .extract()
                 if p.strip()
-            ]).title()
+            ]
+        )
+        for table in sel.css("tbl"):
+            month_str = "".join(
+                [
+                    p.strip()
+                    for p in table.css("tr")[1:2]
+                    .css("tc:first-of-type")[:1]
+                    .css("*::text")
+                    .extract()
+                    if p.strip()
+                ]
+            ).title()
             for cell in table.css("tc > p"):
                 cell_str = re.sub(
-                    r"((?<=[\-–]) | (?=[\-–])|@)", "",
-                    re.sub(r"\s+", " ", " ".join(cell.css("*::text").extract())).strip()
+                    r"((?<=[\-–]) | (?=[\-–])|@)",
+                    "",
+                    re.sub(
+                        r"\s+", " ", " ".join(cell.css("*::text").extract())
+                    ).strip(),
                 ).strip()
                 if (
-                    len(cell_str) <= 2 or (len(cell_str) > 2 and cell_str.startswith("201"))
+                    len(cell_str) <= 2
+                    or (len(cell_str) > 2 and cell_str.startswith("201"))
                     or not cell_str[0].isdigit()
                 ):
                     continue
@@ -90,7 +104,8 @@ class SummSocialServicesAdvisorySpider(CityScrapersSpider):
             return items
         default_year = msg["date"].datetime.year
         date_match = re.search(
-            r"(?P<month_day>[A-Z][a-z]{2,8} \d{1,2})[,\.a-z]+ ?(?P<year>\d{4})?", content
+            r"(?P<month_day>[A-Z][a-z]{2,8} \d{1,2})[,\.a-z]+ ?(?P<year>\d{4})?",
+            content,
         )
         if not date_match:
             return items
@@ -99,7 +114,8 @@ class SummSocialServicesAdvisorySpider(CityScrapersSpider):
         if not year_str:
             year_str = str(default_year)
         time_strs = [
-            s[0].replace(" ", "") for s in re.findall(r"(\d{1,2}(:\d{2})? ?[apm\.]{2,4})", content)
+            s[0].replace(" ", "")
+            for s in re.findall(r"(\d{1,2}(:\d{2})? ?[apm\.]{2,4})", content)
         ]
         # Remove email signature working hours
         if "working hours" in content:
@@ -112,7 +128,8 @@ class SummSocialServicesAdvisorySpider(CityScrapersSpider):
                 time_fmt = "%I:%M%p"
 
             start = datetime.strptime(
-                " ".join([month_day_str, year_str, time_strs[0]]), "%B %d %Y " + time_fmt
+                " ".join([month_day_str, year_str, time_strs[0]]),
+                "%B %d %Y " + time_fmt,
             )
         if len(time_strs) > 1:
             time_fmt = "%I%p"
@@ -120,7 +137,8 @@ class SummSocialServicesAdvisorySpider(CityScrapersSpider):
                 time_fmt = "%I:%M%p"
 
             end = datetime.strptime(
-                " ".join([month_day_str, year_str, time_strs[1]]), "%B %d %Y " + time_fmt
+                " ".join([month_day_str, year_str, time_strs[1]]),
+                "%B %d %Y " + time_fmt,
             )
 
         if "special" in content.lower():
@@ -174,8 +192,8 @@ class SummSocialServicesAdvisorySpider(CityScrapersSpider):
     def _parse_item(self, item_str, month_str, year_str):
         """Returns tuple of title, start, end"""
         item_match = re.search(
-            r"(?P<day>\d+) (?P<name>[A-Za-z& ]+) (?P<start>[\d:]+)[\-–]?(?P<end>[\d: apm\.]+)?",
-            item_str
+            r"(?P<day>\d+) (?P<name>[A-Za-z& ]+) (?P<start>[\d:]+)[\-–]?(?P<end>[\d: apm\.]+)?",  # noqa
+            item_str,
         )
         if not item_match:
             return None, None, None
@@ -200,11 +218,15 @@ class SummSocialServicesAdvisorySpider(CityScrapersSpider):
         else:
             start_num = int(start_str.split(":")[0])
             apm = "am" if start_num >= 8 else "pm"
-        start_time = datetime.strptime(start_str + apm, "%I:%M%p" if ":" in start_str else "%I%p")
+        start_time = datetime.strptime(
+            start_str + apm, "%I:%M%p" if ":" in start_str else "%I%p"
+        )
         end_dt = None
         if end_str.strip():
             end_str = re.search(r"\d{1,2}(:\d{2})?", end_str).group()
-            end_time = datetime.strptime(end_str + apm, "%I:%M%p" if ":" in end_str else "%I%p")
+            end_time = datetime.strptime(
+                end_str + apm, "%I:%M%p" if ":" in end_str else "%I%p"
+            )
             if end_time < start_time:
                 end_time = end_time + timedelta(hours=12)
             end_dt = datetime.combine(dt_obj.date(), end_time.time())

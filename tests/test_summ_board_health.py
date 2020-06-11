@@ -65,15 +65,13 @@ def test_source():
 def test_links():
     assert parsed_items[0]["links"] == [
         {
-            "href":
-                "https://www.scph.org/sites/default/files/editor/BOHagendas/1%2010%2019%20PUBLIC%20AGENDA.pdf",  # noqa
-            "title": "Agenda"
+            "href": "https://www.scph.org/sites/default/files/editor/BOHagendas/1%2010%2019%20PUBLIC%20AGENDA.pdf",  # noqa
+            "title": "Agenda",
         },
         {
             "title": "Minutes",
-            "href":
-                "https://www.scph.org/sites/default/files/editor/BOHminutes/January%2010%202019%20Board%20Meeting%20Minutes%20with%20Schedules.pdf"  # noqa
-        }
+            "href": "https://www.scph.org/sites/default/files/editor/BOHminutes/January%2010%202019%20Board%20Meeting%20Minutes%20with%20Schedules.pdf",  # noqa
+        },
     ]
 
 

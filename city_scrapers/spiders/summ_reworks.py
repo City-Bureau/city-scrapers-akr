@@ -25,7 +25,9 @@ class SummReworksSpider(CityScrapersSpider):
         """
         for item in response.css(".barItemDetail"):
             title = self._parse_title(item)
-            if "Invitation" in title or ("Board" not in title and "Committee" not in title):
+            if "Invitation" in title or (
+                "Board" not in title and "Committee" not in title
+            ):
                 continue
             meeting = Meeting(
                 title=title,
@@ -66,11 +68,15 @@ class SummReworksSpider(CityScrapersSpider):
     def _parse_location(self, item):
         """Parse or generate location."""
         addr_text = re.sub(
-            r"\s+", " ", " ".join([
-                " ".join(line.css("*::text").extract())
-                for line in item.css(".barItemDescription > p")
-                if re.search(r"\d{5}", " ".join(line.css("*::text").extract()))
-            ])
+            r"\s+",
+            " ",
+            " ".join(
+                [
+                    " ".join(line.css("*::text").extract())
+                    for line in item.css(".barItemDescription > p")
+                    if re.search(r"\d{5}", " ".join(line.css("*::text").extract()))
+                ]
+            ),
         ).strip()
         if not addr_text:
             raise ValueError("Meeting location could not be parsed")

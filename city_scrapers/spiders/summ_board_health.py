@@ -34,10 +34,7 @@ class SummBoardHealthSpider(CityScrapersSpider):
             start = self._parse_start(link_href)
             if not start:
                 continue
-            link_date_map[start].append({
-                "title": link_title,
-                "href": link_href,
-            })
+            link_date_map[start].append({"title": link_title, "href": link_href})
 
         for start, links in link_date_map.items():
             meeting = Meeting(

@@ -30,8 +30,7 @@ class AkrMetroTransportationStudySpider(CityScrapersSpider):
         month_link_map = defaultdict(list)
         for section in response.css(".large-12.archive-subsection"):
             month_match = re.search(
-                r"[A-Z][a-z]{2,8} \d{4}",
-                section.css("h2::text").extract_first() or ""
+                r"[A-Z][a-z]{2,8} \d{4}", section.css("h2::text").extract_first() or ""
             )
             if not month_match:
                 continue
@@ -40,10 +39,12 @@ class AkrMetroTransportationStudySpider(CityScrapersSpider):
                 link_title = " ".join(link.css("*::text").extract())
                 if "Packet" in link_title:
                     link_title = "Meeting Packet"
-                month_link_map[month_year].append({
-                    "title": link_title,
-                    "href": response.urljoin(link.attrib["href"]),
-                })
+                month_link_map[month_year].append(
+                    {
+                        "title": link_title,
+                        "href": response.urljoin(link.attrib["href"]),
+                    }
+                )
         return month_link_map
 
     def _parse_calendar(self, response):
@@ -53,10 +54,14 @@ class AkrMetroTransportationStudySpider(CityScrapersSpider):
         events = json.loads(schema_json[-1])
         for event in events:
             if "Committee" in event["name"]:
-                yield scrapy.Request(event["url"], callback=self._parse_event, dont_filter=True)
+                yield scrapy.Request(
+                    event["url"], callback=self._parse_event, dont_filter=True
+                )
 
     def _parse_event(self, response):
-        data = json.loads(response.css("script[type='application/ld+json']::text").extract()[-1])[0]
+        data = json.loads(
+            response.css("script[type='application/ld+json']::text").extract()[-1]
+        )[0]
         start = self._parse_dt(data.get("startDate"))
         if not start:
             return
@@ -96,16 +101,24 @@ class AkrMetroTransportationStudySpider(CityScrapersSpider):
             "address": "",
         }
         if item["location"].get("address"):
-            loc_obj["address"] = " ".join([
-                item["location"]["address"].get(p)
-                for p in ["streetAddress", "addressLocality", "addressRegion", "postalCode"]
-                if item["location"]["address"].get(p)
-            ])
+            loc_obj["address"] = " ".join(
+                [
+                    item["location"]["address"].get(p)
+                    for p in [
+                        "streetAddress",
+                        "addressLocality",
+                        "addressRegion",
+                        "postalCode",
+                    ]
+                    if item["location"]["address"].get(p)
+                ]
+            )
         return loc_obj
 
     def _parse_links(self, date_obj, title):
         """Parse or generate links."""
         return [
-            link for link in self.month_link_map[date_obj.strftime("%B %Y")]
+            link
+            for link in self.month_link_map[date_obj.strftime("%B %Y")]
             if title.lower() in link["title"].lower() or "Packet" in link["title"]
         ]

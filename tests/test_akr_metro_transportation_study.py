@@ -6,7 +6,9 @@ from city_scrapers_core.constants import ADVISORY_COMMITTEE, PASSED
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
-from city_scrapers.spiders.akr_metro_transportation_study import AkrMetroTransportationStudySpider
+from city_scrapers.spiders.akr_metro_transportation_study import (
+    AkrMetroTransportationStudySpider,
+)
 
 test_response = file_response(
     join(dirname(__file__), "files", "akr_metro_transportation_study_detail.html"),
@@ -48,8 +50,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_item[
-        "id"] == "akr_metro_transportation_study/201905091330/x/technical_advisory_committee"
+    assert (
+        parsed_item["id"]
+        == "akr_metro_transportation_study/201905091330/x/technical_advisory_committee"
+    )
 
 
 def test_status():
@@ -59,7 +63,7 @@ def test_status():
 def test_location():
     assert parsed_item["location"] == {
         "name": "Hilton Garden Inn",
-        "address": "1307 E. Market St. Akron OH 44305"
+        "address": "1307 E. Market St. Akron OH 44305",
     }
 
 
@@ -70,14 +74,13 @@ def test_source():
 def test_links():
     assert parsed_item["links"] == [
         {
-            "href":
-                "http://amatsplanning.org/wp-content/uploads/TAC-CIC-and-Policy-Committee-Meeting-Materials-May-2019.pdf",  # noqa
-            "title": "Meeting Packet"
+            "href": "http://amatsplanning.org/wp-content/uploads/TAC-CIC-and-Policy-Committee-Meeting-Materials-May-2019.pdf",  # noqa
+            "title": "Meeting Packet",
         },
         {
             "title": "Technical Advisory Committee Podcast",
-            "href": "http://amatsplanning.org/wp-content/uploads/TAC-5-9-19-1.mp3"
-        }
+            "href": "http://amatsplanning.org/wp-content/uploads/TAC-5-9-19-1.mp3",
+        },
     ]
 
 

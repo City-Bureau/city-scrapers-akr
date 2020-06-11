@@ -47,7 +47,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[1]["id"] == "akr_city_council_hearings/201910071900/x/public_hearings"
+    assert (
+        parsed_items[1]["id"]
+        == "akr_city_council_hearings/201910071900/x/public_hearings"
+    )
 
 
 def test_status():
@@ -59,8 +62,10 @@ def test_location():
 
 
 def test_source():
-    assert parsed_items[1][
-        "source"] == "http://www.akroncitycouncil.org/upcoming-meetings/public-hearings-1/"
+    assert (
+        parsed_items[1]["source"]
+        == "http://www.akroncitycouncil.org/upcoming-meetings/public-hearings-1/"
+    )
 
 
 def test_links():

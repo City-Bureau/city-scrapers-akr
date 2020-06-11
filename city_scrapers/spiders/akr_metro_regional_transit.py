@@ -92,8 +92,7 @@ class AkrMetroRegionalTransitSpider(CityScrapersSpider):
             link_title = " ".join(link.css("*::text").extract())
             if "Board Packet" in link_title:
                 link_title = "Board Packet"
-            links.append({
-                "title": link_title,
-                "href": response.urljoin(link.attrib["href"]),
-            })
+            links.append(
+                {"title": link_title, "href": response.urljoin(link.attrib["href"])}
+            )
         return links

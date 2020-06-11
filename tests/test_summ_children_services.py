@@ -51,7 +51,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "summ_children_services/201910221730/x/board_of_trustees"
+    assert (
+        parsed_items[0]["id"]
+        == "summ_children_services/201910221730/x/board_of_trustees"
+    )
 
 
 def test_status():
