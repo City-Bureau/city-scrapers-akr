@@ -11,7 +11,6 @@ legistar = {git = "https://github.com/opencivicdata/python-legistar-scraper"}
 city-scrapers-core = {extras = ["azure"],version = "*"}
 python-dateutil = "*"
 scrapy-wayback-middleware = "*"
-pypdf2 = "*"
 chardet = "*"
 pdfminer-six = "*"
 pypiwin32 = {version = "*",sys_platform = "== 'win32'"}
@@ -20,5 +19,5 @@ pypiwin32 = {version = "*",sys_platform = "== 'win32'"}
 freezegun = "*"
 pytest = "*"
 "flake8" = "*"
-isort = "*"
+isort = "<5.0"
 black = "==19.10b0"
