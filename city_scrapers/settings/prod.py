@@ -1,6 +1,8 @@
-from .base import *
+import os
 
-USER_AGENT = "City Scrapers [production mode]. Learn more and say hello at https://citybureau.org/city-scrapers"
+from .base import *  # noqa
+
+USER_AGENT = "City Scrapers [production mode]. Learn more and say hello at https://citybureau.org/city-scrapers"  # noqa
 
 # Configure item pipelines
 ITEM_PIPELINES = {
@@ -44,6 +46,8 @@ FEED_URI = (
 )
 
 FEED_PREFIX = "%Y/%m/%d"
+
+SPIDER_MIDDLEWARES = {}
 
 if os.getenv("WAYBACK_ENABLED"):
     SPIDER_MIDDLEWARES = {
