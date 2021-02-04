@@ -120,9 +120,6 @@ json_conversions.md
 .citybureau/
 city_scrapers/caps.py
 
-# legistar cache
-_cache/
-
 # src dir from git commit packages in requirements.txt
 src/
 
