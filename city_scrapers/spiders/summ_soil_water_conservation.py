@@ -24,7 +24,8 @@ class SummSoilWaterConservationSpider(CityScrapersSpider):
                 "sanitizeHtml=true&timeMin={}T00:00:00-04:00&timeMax={}T00:00:00-04:00&"
                 "key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs"
             ).format(
-                last_week.strftime("%Y-%m-%d"), in_two_months.strftime("%Y-%m-%d"),
+                last_week.strftime("%Y-%m-%d"),
+                in_two_months.strftime("%Y-%m-%d"),
             )
         ]
 

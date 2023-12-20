@@ -61,7 +61,6 @@ class SummCountyCouncilSpider(CityScrapersSpider):
         if url_idx == len(self.doc_urls) - 1:
             yield from self._get_calendar_pages()
         else:
-
             yield scrapy.Request(self.doc_urls[url_idx + 1], dont_filter=True)
 
     def _get_calendar_pages(self):
