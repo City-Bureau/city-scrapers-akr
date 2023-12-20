@@ -4,13 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-twisted = "*"
 scrapy = "*"
 scrapy-sentry = "*"
 city-scrapers-core = {extras = ["azure"],version = "*"}
 python-dateutil = "*"
 scrapy-wayback-middleware = "*"
-chardet = "*"
 pdfminer-six = "*"
 
 [dev-packages]
