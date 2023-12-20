@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a2ebf6873fb26f958c338a3d392c440617584ed1b4d31b4c361ed27dd0a0ea3b"
+            "sha256": "8a20589388ef97f63e274771549b397f6605cd798779f0a7b7725897408717a4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -220,12 +220,9 @@
             "extras": [
                 "azure"
             ],
-            "hashes": [
-                "sha256:142d8a119d1e62e398a5a248c8c8bb5c3e0ed820f29f6bf03d0ae46b928e8270",
-                "sha256:6218a70c8d9eb01ed4c2cdafdf4fb52dea0292aeb09e24e798ff5fa7c53031bb"
-            ],
+            "git": "https://github.com/City-Bureau/city-scrapers-core.git",
             "markers": "python_version >= '3.6' and python_version < '4.0'",
-            "version": "==0.10.1"
+            "ref": "44ed57f1f4833f7c35276fff4bc5187e191da496"
         },
         "constantly": {
             "hashes": [
@@ -697,11 +694,8 @@
             "version": "==2.11.0"
         },
         "scrapy-sentry": {
-            "hashes": [
-                "sha256:4c78e0fb5a5940639f11ae2a1fb28d4ea1a41180d88289efc6d8e39e1e14227f"
-            ],
-            "index": "pypi",
-            "version": "==0.9.0"
+            "git": "https://github.com/City-Bureau/scrapy-sentry.git",
+            "ref": "5da919f716d981e5c7926994f27676a285da39a3"
         },
         "scrapy-wayback-middleware": {
             "hashes": [
@@ -753,6 +747,9 @@
             "version": "==5.1.1"
         },
         "twisted": {
+            "extras": [
+                "http2"
+            ],
             "hashes": [
                 "sha256:32acbd40a94f5f46e7b42c109bfae2b302250945561783a8b7a059048f2d4d31",
                 "sha256:86c55f712cc5ab6f6d64e02503352464f0400f66d4f079096d744080afcccbd0"
