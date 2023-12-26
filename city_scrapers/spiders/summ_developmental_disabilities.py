@@ -68,7 +68,10 @@ class SummDevelopmentalDisabilitiesSpider(CityScrapersSpider):
         yield response.follow(
             (
                 "/about/summit-dd-board/board-meetings/{}-meeting-documents/{}-board-meeting-documents/"  # noqa
-            ).format(start.year, start.strftime("%B").lower(),),
+            ).format(
+                start.year,
+                start.strftime("%B").lower(),
+            ),
             callback=self._parse_links,
             dont_filter=True,
         )

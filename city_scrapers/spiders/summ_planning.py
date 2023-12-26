@@ -94,7 +94,8 @@ class SummPlanningSpider(CityScrapersSpider):
             if date_match:
                 link_title = "Meeting Packet"
                 start_date = datetime.strptime(
-                    date_match.group().replace(",", ""), "%B %d %Y",
+                    date_match.group().replace(",", ""),
+                    "%B %d %Y",
                 ).date()
             if len(item.css("a")) == 0:
                 continue
