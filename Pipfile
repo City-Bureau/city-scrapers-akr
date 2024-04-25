@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 scrapy = "*"
-scrapy-sentry = {ref = "v1", git = "https://github.com/City-Bureau/scrapy-sentry.git"}
+scrapy-sentry-errors = "1.0.0"
 city-scrapers-core = {ref = "main", git = "https://github.com/City-Bureau/city-scrapers-core.git", extras = ["azure"]}
 python-dateutil = "*"
 scrapy-wayback-middleware = "*"
