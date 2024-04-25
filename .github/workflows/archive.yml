@@ -1,24 +1,18 @@
-name: Cron
+name: Archive
 
 on:
   schedule:
-    - cron: "1 6 * * *"
+    - cron: "7 11 * * *"
   workflow_dispatch:
 
 env:
   CI: true
   PYTHON_VERSION: 3.9
   PIPENV_VENV_IN_PROJECT: true
-  SCRAPY_SETTINGS_MODULE: city_scrapers.settings.prod
-  WAYBACK_ENABLED: true
+  SCRAPY_SETTINGS_MODULE: city_scrapers.settings.archive
   AUTOTHROTTLE_MAX_DELAY: 30.0
   AUTOTHROTTLE_START_DELAY: 1.5
   AUTOTHROTTLE_TARGET_CONCURRENCY: 3.0
-  AZURE_ACCOUNT_KEY: ${{ secrets.AZURE_ACCOUNT_KEY }}
-  AZURE_ACCOUNT_NAME: ${{ secrets.AZURE_ACCOUNT_NAME }}
-  AZURE_CONTAINER: ${{ secrets.AZURE_CONTAINER }}
-  AZURE_STATUS_CONTAINER: ${{ secrets.AZURE_STATUS_CONTAINER }}
-  SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
 
 jobs:
   crawl:
@@ -52,14 +46,3 @@ jobs:
         run: |
           export PYTHONPATH=$(pwd):$PYTHONPATH
           ./.deploy.sh
-
-      - name: Combine output feeds
-        run: |
-          export PYTHONPATH=$(pwd):$PYTHONPATH
-          pipenv run scrapy combinefeeds -s LOG_ENABLED=False
-
-      - name: Prevent workflow deactivation
-        uses: gautamkrishnar/keepalive-workflow@v1
-        with:
-          committer_username: "citybureau-bot"
-          committer_email: "documenters@citybureau.org"
