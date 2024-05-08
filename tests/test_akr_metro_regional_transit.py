@@ -1,7 +1,7 @@
 from datetime import datetime
 from os.path import dirname, join
 
-import pytest  # noqa
+import pytest
 from city_scrapers_core.constants import BOARD, PASSED
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
@@ -16,69 +16,68 @@ test_response = file_response(
 )
 spider = AkrMetroRegionalTransitSpider()
 
-freezer = freeze_time("2019-09-25")
+freezer = freeze_time(datetime(2024, 5, 8, 14, 4))
 freezer.start()
 
 parsed_items = [item for item in spider.parse(test_response)]
-
+parsed_item = parsed_items[0]
 freezer.stop()
 
 
-def test_count():
-    assert len(parsed_items) == 12
-
-
 def test_title():
-    assert parsed_items[0]["title"] == "Board of Trustees and Committees"
+    assert parsed_item["title"] == "Board meeting"
 
 
 def test_description():
-    assert parsed_items[0]["description"] == ""
+    assert parsed_item["description"] == ""
 
 
 def test_start():
-    assert parsed_items[0]["start"] == datetime(2019, 1, 29, 8, 30)
+    assert parsed_item["start"] == datetime(2024, 1, 30, 9, 0)
 
 
 def test_end():
-    assert parsed_items[0]["end"] is None
+    assert parsed_item["end"] is None
 
 
 def test_time_notes():
-    assert parsed_items[0]["time_notes"] == ""
+    assert parsed_item["time_notes"] == ""
 
 
 def test_id():
     assert (
-        parsed_items[0]["id"]
-        == "akr_metro_regional_transit/201901290830/x/board_of_trustees_and_committees"
+        parsed_item["id"] == "akr_metro_regional_transit/202401300900/x/board_meeting"
     )
 
 
 def test_status():
-    assert parsed_items[0]["status"] == PASSED
+    assert parsed_item["status"] == PASSED
 
 
 def test_location():
-    assert parsed_items[0]["location"] == spider.location
+    assert parsed_item["location"] == {
+        "name": "Robert K. Pfaff Transit Center",
+        "address": "631 S Broadway St, Akron, OH 44311",
+    }
 
 
 def test_source():
-    assert parsed_items[0]["source"] == test_response.url
+    assert (
+        parsed_item["source"] == "https://www.akronmetro.org/metro-board-meetings.aspx"
+    )
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [
-        {
-            "href": "https://www.akronmetro.org/Data/Sites/2/pdf/january-2019-board-packet.pdf",  # noqa
-            "title": "Board Packet",
-        }
+    assert parsed_item["links"] == [
+        {"title": "Board Packet", "href": "/Data/Sites/2/board-packet-1.30.24.pdf"},
+        {"title": "Minutes", "href": "/Data/Sites/2/board-minutes-1.30.24-signed.pdf"},
     ]
 
 
 def test_classification():
-    assert parsed_items[0]["classification"] == BOARD
+    assert parsed_item["classification"] == BOARD
 
 
-def test_all_day():
-    assert parsed_items[0]["all_day"] is False
+@pytest.mark.parametrize("item", parsed_items)
+def test_all_day(item):
+    assert item["all_day"] is False
