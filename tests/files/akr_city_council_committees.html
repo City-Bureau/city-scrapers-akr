@@ -1,0 +1,481 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="IE=Edge" /> 
+        <title>Meeting Search Results - OnBase Agenda Online</title>
+        <link href="/OnBaseAgendaOnline/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+		
+        <script src="/OnBaseAgendaOnline/Scripts/jquery-2.0.1.js"></script>
+
+        <script src="/OnBaseAgendaOnline/Scripts/jquery-ui-1.10.3.js"></script>
+
+		<script src="/OnBaseAgendaOnline/Scripts/modernizr-2.6.2.js"></script>
+
+		<script src="/OnBaseAgendaOnline/Scripts/bootstrap.min.js"></script>
+		
+		<link href="/OnBaseAgendaOnline/Content/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/OnBaseAgendaOnline/Content/css/dropdown.css" rel="stylesheet"/>
+<link href="/OnBaseAgendaOnline/Content/css/datepicker.min.css" rel="stylesheet"/>
+
+
+        <link href="/OnBaseAgendaOnline/Style?cssFilename=Site.css" rel="stylesheet" />
+    </head>
+<body>
+	<div>
+		
+<div class="logo"></div>
+<img id="img_logo" alt="Logo" src="/OnBaseAgendaOnline/Content/Images/AgendaLogo.png"/>
+<div class="logo-small"></div>
+	</div>
+	<div class="navbar navbar-inverse" role="navigation">
+		<div class="navbar-header">
+			<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="navbar-collapse collapse navbar-responsive-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/OnBaseAgendaOnline/">Home</a></li>
+				<li><a href="/OnBaseAgendaOnline/Meetings">Meetings</a></li>
+				<!--<li><a href="/OnBaseAgendaOnline/Home/Contact">Contact</a></li>		-->		
+			</ul>
+		</div>
+	</div>
+	<div>
+		
+		<section class="content-wrapper main-content clear-fix">
+			
+
+
+
+
+
+
+	<div class="panel-group">
+		<div class="panel panel-primary">
+			<div class="panel-body" id="searchOptions">
+				<div class="search-header">
+					Search Meeting Content
+				</div>
+
+<form action="/OnBaseAgendaOnline/Meetings" class="form-horizontal" method="post"><input name="__RequestVerificationToken" type="hidden" value="YOtWjJvm-wvdiplXWS9F8Ci4b-FZBpSVYSWPLKlFVGr5vZI38IeUk_lTLeIzZkWUXpCLGi6IU-5WYxtLoErUD5i5OFvFhcS-AIBSDkmMnuo1" />                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="Keywords">Search Text</label>
+                            <div class="col-sm-10">
+								<input class="form-control" id="Keywords" name="Keywords" type="text" value="" />
+							</div>
+						</div>
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="MeetingTypeIDs">Meeting Type</label>
+                            <div class="col-sm-10">
+								<div class="multi-select form-control"
+									 id="MeetingTypeIDs"
+									 name="MeetingTypeIDs"
+									 noselectiontext="Select a Meeting Type"
+									 selectiontext="{0} Items Selected"
+									 checkalltext="Check All"
+									 uncheckalltext="Uncheck All"
+									 nextfocusid="DateRangeOptionID"
+									 selectedvalues="101">
+										<button value="102" style="display: none;">City Council Committee Meeting</button>
+										<button value="101" style="display: none;">City Council Meeting</button>
+								</div>
+							</div>
+						</div>	
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="DateRangeOptionID">Date Range</label>
+                            <div class="col-sm-10">
+								<select class="form-control single-select" id="DateRangeOptionID" name="DateRangeOptionID"><option value="1">Last Year</option>
+<option value="2">Last Month</option>
+<option value="3">Last Week</option>
+<option value="4">Recent/Upcoming</option>
+<option value="5">This Week</option>
+<option value="6">This Month</option>
+<option value="7">This Year</option>
+<option value="8">Next Week</option>
+<option value="9">Next Month</option>
+<option value="10">Next Year</option>
+<option selected="selected" value="11">Custom Date Range</option>
+</select>
+							</div>
+						</div>
+						<div class="col-sm-2"></div>
+						<div id="divDatePicker" class="col-sm-10 form-group" style="display: none;">
+							<div class="col-lg-10">
+								<input class="input-normal" id="DateRangeCustomStartDate" name="DateRangeCustomStartDate" type="text" value="4/16/2024 12:00:00 AM" />
+								<span class="control-label">-&nbsp;</span>							
+								<input class="input-normal" id="DateRangeCustomEndDate" name="DateRangeCustomEndDate" type="text" value="8/14/2024 11:59:59 PM" /></div>
+						</div>
+					<div class="row form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<input type="submit" value="Search" class="btn btn-primary" />
+						</div>
+					</div>
+</form>
+			</div>
+		</div>
+	</div>
+
+
+<script src="/OnBaseAgendaOnline/Scripts/datepicker.min.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$("#DateRangeOptionID").change(function (e)
+		{
+			showCustomDateRangePicker();
+		});
+
+		datePickerController.createDatePicker(
+		{
+			// Associate the text input to a Local date format
+			formElements: { "DateRangeCustomStartDate": "%n/%j/%Y" }
+		});
+		datePickerController.createDatePicker(
+		{
+			// Associate the text input to a Local date format
+			formElements: { "DateRangeCustomEndDate": "%n/%j/%Y" }
+		});
+
+		showCustomDateRangePicker();
+	})
+
+	function showCustomDateRangePicker()
+	{
+		if ($("#DateRangeOptionID").val() == 11)
+		{
+			$("#divDatePicker").show();
+		}
+		else
+		{
+			$("#divDatePicker").hide();
+		}
+	}
+</script>
+
+
+
+	<div class="header">Meeting Search Results</div>
+	<div id="divResults">
+		
+
+
+<script type="text/javascript">		
+	var localeSortableStrings =
+	{
+		FILTER_MENU_ALL:	'All',
+		COUNT_LABEL:		'Showing {0} Meeting(s)',
+	};
+</script>
+<div id="meetings-list">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				
+				
+				<th class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">
+					<div><a href="#" data-sortable-label="1">Meeting Name</a><span id="chevron"></span></div>
+				</th>
+				<th class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">
+					<div><a href="#" data-sortable-label="1">Meeting Type</a><span id="chevron"></span></div>
+				</th>
+				<th class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-numeric="true" data-sortable-order="dec">
+					<div><a href="#" data-sortable-label="1">Meeting Date</a><span id="chevron"></span></div>
+				</th>
+				
+				<th class="hidden-xs hidden-md hidden-lg visible-sm">
+					Meeting Info
+					<div>&nbsp;</div>
+				</th>
+				
+				<th class="hidden-sm hidden-md hidden-lg visible-xs">
+					Meeting Info
+					<div>&nbsp;</div>
+				</th>
+				
+				<th class="hidden-xs visible-sm visible-md visible-lg">
+					Links
+					<div>&nbsp;</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+					<tr id="meeting-587-row" class="meeting-row" data-meeting-id="587">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">May 20, 2024</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="5/20/2024" data-sortable-data="1716244200">5/20/2024 6:30:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							May 20, 2024
+							<br />
+							City Council Meeting
+							<br />
+							5/20/2024 6:30:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							May 20, 2024
+							<br />
+							City Council Meeting
+							<br />
+							5/20/2024 6:30:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=587&amp;doctype=1"
+				title="View Agenda for May 20, 2024 City Council Meeting on 5/20/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/May_20%2c_2024_587_Agenda_5_20_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=587" target="_blank"
+				title="Download Agenda for May 20, 2024 City Council Meeting on 5/20/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=587&amp;doctype=1"
+				title="View Agenda for May 20, 2024 City Council Meeting on 5/20/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/May_20%2c_2024_587_Agenda_5_20_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=587" target="_blank"
+				title="Download Agenda for May 20, 2024 City Council Meeting on 5/20/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-586-row" class="meeting-row" data-meeting-id="586">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">May 13, 2024</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="5/13/2024" data-sortable-data="1715639400">5/13/2024 6:30:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							May 13, 2024
+							<br />
+							City Council Meeting
+							<br />
+							5/13/2024 6:30:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							May 13, 2024
+							<br />
+							City Council Meeting
+							<br />
+							5/13/2024 6:30:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=586&amp;doctype=1"
+				title="View Agenda for May 13, 2024 City Council Meeting on 5/13/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/May_13%2c_2024_586_Agenda_5_13_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=586" target="_blank"
+				title="Download Agenda for May 13, 2024 City Council Meeting on 5/13/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=586&amp;doctype=1"
+				title="View Agenda for May 13, 2024 City Council Meeting on 5/13/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/May_13%2c_2024_586_Agenda_5_13_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=586" target="_blank"
+				title="Download Agenda for May 13, 2024 City Council Meeting on 5/13/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-585-row" class="meeting-row" data-meeting-id="585">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">May 6, 2024</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="5/6/2024" data-sortable-data="1715034600">5/6/2024 6:30:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							May 6, 2024
+							<br />
+							City Council Meeting
+							<br />
+							5/6/2024 6:30:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							May 6, 2024
+							<br />
+							City Council Meeting
+							<br />
+							5/6/2024 6:30:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=585&amp;doctype=1"
+				title="View Agenda for May 6, 2024 City Council Meeting on 5/6/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/May_6%2c_2024_585_Agenda_5_6_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=585" target="_blank"
+				title="Download Agenda for May 6, 2024 City Council Meeting on 5/6/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=585&amp;doctype=1"
+				title="View Agenda for May 6, 2024 City Council Meeting on 5/6/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/May_6%2c_2024_585_Agenda_5_6_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=585" target="_blank"
+				title="Download Agenda for May 6, 2024 City Council Meeting on 5/6/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-584-row" class="meeting-row" data-meeting-id="584">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">April 29, 2024</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="4/29/2024" data-sortable-data="1714429800">4/29/2024 6:30:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							April 29, 2024
+							<br />
+							City Council Meeting
+							<br />
+							4/29/2024 6:30:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							April 29, 2024
+							<br />
+							City Council Meeting
+							<br />
+							4/29/2024 6:30:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=584&amp;doctype=1"
+				title="View Agenda for April 29, 2024 City Council Meeting on 4/29/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/April_29%2c_2024_584_Agenda_4_29_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=584" target="_blank"
+				title="Download Agenda for April 29, 2024 City Council Meeting on 4/29/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=584&amp;doctype=1"
+				title="View Agenda for April 29, 2024 City Council Meeting on 4/29/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/April_29%2c_2024_584_Agenda_4_29_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=584" target="_blank"
+				title="Download Agenda for April 29, 2024 City Council Meeting on 4/29/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+					<tr id="meeting-583-row" class="meeting-row" data-meeting-id="583">
+						
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgName">April 22, 2024</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgType">City Council Meeting</td>
+						<td class="hidden-xs hidden-sm visible-md visible-lg" data-sortable-type="mtgTime" data-sortable-label="4/22/2024" data-sortable-data="1713825000">4/22/2024 6:30:00 PM</td>
+						
+						<td class="hidden-xs hidden-md hidden-lg visible-sm">
+							April 22, 2024
+							<br />
+							City Council Meeting
+							<br />
+							4/22/2024 6:30:00 PM
+						</td>
+						
+						<td class="hidden-sm hidden-md hidden-lg visible-xs">
+							April 22, 2024
+							<br />
+							City Council Meeting
+							<br />
+							4/22/2024 6:30:00 PM
+							<br />
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=583&amp;doctype=1"
+				title="View Agenda for April 22, 2024 City Council Meeting on 4/22/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/April_22%2c_2024_583_Agenda_4_22_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=583" target="_blank"
+				title="Download Agenda for April 22, 2024 City Council Meeting on 4/22/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+						
+						<td class="hidden-xs visible-sm visible-md visible-lg">
+							
+										<span>&nbsp;</span>
+			<a href="/OnBaseAgendaOnline/Meetings/ViewMeeting?id=583&amp;doctype=1"
+				title="View Agenda for April 22, 2024 City Council Meeting on 4/22/2024 6:30:00 PM">Agenda</a>
+			<a href="/OnBaseAgendaOnline/Documents/Downloadfile/April_22%2c_2024_583_Agenda_4_22_2024_6_30_00_PM.pdf?documentType=1&amp;meetingId=583" target="_blank"
+				title="Download Agenda for April 22, 2024 City Council Meeting on 4/22/2024 6:30:00 PM">
+				<img src="/OnBaseAgendaOnline/Images/PDF_16x16.png" />
+			</a>
+
+							<span>&nbsp;</span>
+						</td>
+					</tr>
+			<tr>
+				<td colspan="4">
+					<span class="results-footer">
+						<span id="footer-results-count">Showing 5 Meeting(s)</span>
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div id="footer-results-message">
+	</div>
+</div>
+
+<script type="text/javascript" src="/OnBaseAgendaOnline/Scripts/meetinglistsort.js"></script>
+
+
+
+
+
+	</div>
+	<div class="post-meeting-grid-spacer">
+		&nbsp;
+	</div>
+
+		</section>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 no-padding-left">
+					<img src="/OnBaseAgendaOnline/Images/Powered_By_OnBase.png" class="onbase-logo" />
+					&#169; 2024 - Hyland Software
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/OnBaseAgendaOnline/Scripts/dropdown.js"></script>
+
+
+</body>
+</html>
