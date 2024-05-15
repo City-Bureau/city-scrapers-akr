@@ -1,27 +1,22 @@
 import re
 from datetime import datetime, time, timedelta
-from itertools import zip_longest
 
 from city_scrapers_core.constants import CITY_COUNCIL
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-
-
-def grouper(n, iterable, fillvalue=None):
-    """From itertools recipes"""
-    args = [iter(iterable)] * n
-    return zip_longest(fillvalue=fillvalue, *args)
+from dateutil.parser import parse
 
 
 class AkrCityCouncilSpider(CityScrapersSpider):
     name = "akr_city_council"
-    agency = "Akron City Council"
+    agency = "Akron City Council - Council"
     timezone = "America/Detroit"
     location = {
         "name": "City Hall",
         "address": "166 South High St Akron, OH 44308",
     }
     meeting_defaults = {
+        "title": "Regular council meeting",
         "description": "",
         "end": None,
         "all_day": False,
@@ -32,10 +27,9 @@ class AkrCityCouncilSpider(CityScrapersSpider):
 
     @property
     def start_urls(self):
-        """Filter for meetings within a 60 day window"""
         today = datetime.now()
         start = today - timedelta(days=30)
-        end = today + timedelta(days=30)
+        end = today + timedelta(days=90)
         return [
             (
                 "https://onlinedocs.akronohio.gov/OnBaseAgendaOnline/Meetings/Search?dropid=11&mtids=101&dropsv={}&dropev={}"  # noqa
@@ -44,13 +38,13 @@ class AkrCityCouncilSpider(CityScrapersSpider):
 
     def parse(self, response):
         """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
+        Parse agenda links from the main page and then parse
+        the details from each agenda page
         """
         for item in response.css(".meeting-row"):
-            agenda_link = item.css("td:last-child a::attr(href)").extract_first()
+            agenda_link = item.css(
+                "td:last-child a::attr(href)"
+            ).extract_first()  # noqa
             if agenda_link:
                 agenda_link = agenda_link.replace(
                     "Meetings/ViewMeeting?i", "Documents/ViewAgenda?meetingI"
@@ -66,7 +60,10 @@ class AkrCityCouncilSpider(CityScrapersSpider):
                     callback=self._parse_detail,
                     cb_kwargs={
                         "links": [
-                            {"title": "Agenda", "href": response.urljoin(pdf_link)}
+                            {
+                                "title": "Agenda",
+                                "href": response.urljoin(pdf_link),
+                            }  # noqa
                         ]
                     },
                     dont_filter=True,
@@ -78,7 +75,6 @@ class AkrCityCouncilSpider(CityScrapersSpider):
                     .strip()
                 )
                 meeting = Meeting(
-                    title="City Council",
                     start=datetime.strptime(start_str, "%m/%d/%Y %I:%M:%S %p"),
                     links=[],
                     source=response.url,
@@ -86,54 +82,40 @@ class AkrCityCouncilSpider(CityScrapersSpider):
                 )
                 meeting["status"] = self._get_status(meeting)
                 meeting["id"] = self._get_id(meeting)
-
                 yield meeting
 
     def _parse_detail(self, response, **kwargs):
-        """Parse both the city council and committee meetings from the agenda page"""
-        bold_text = " ".join(response.css("span[style*='bold']::text").extract())
+        """Parse both the city council and committee meetings from the agenda page"""  # noqa
+        bold_text = " ".join(
+            response.css("span[style*='bold']::text").extract()
+        )  # noqa
         date_match = re.search(r"[a-zA-Z]{3,10} \d{1,2}, \d{4}", bold_text)
         if not date_match:
+            self.logger.error("No date found in the bold text")
             return
         start_date = datetime.strptime(date_match.group(), "%B %d, %Y").date()
-        yield from self._parse_city_council_meeting(response, start_date, **kwargs)
-        yield from self._parse_committee_meetings(response, start_date)
 
-    def _parse_city_council_meeting(self, response, start_date, **kwargs):
-        """Parse the main city council meeting from the agenda page"""
+        # Target the "regular city council" row in the
+        # table to get the meeting time.
+        start_time_selector = '//tr[translate(td[last()]/p/span/text(), "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz") = "regular council meeting"]/td[3]/p/span/text()'  # noqa
+        meeting_time_str = response.xpath(start_time_selector).get()
+        if not meeting_time_str:
+            self.logger.error("No meeting time found - default to midnight")
+            meeting_time = time(0, 0)
+        else:
+            parsed_time = parse(meeting_time_str).time()
+            meeting_time = parsed_time
+
+        # Combine date and time into a single datetime object
+        meeting_datetime = datetime.combine(start_date, meeting_time)
+
+        # Parse the main city council meeting from the agenda page
         meeting = Meeting(
-            title="City Council",
-            start=datetime.combine(start_date, time(19)),
+            start=meeting_datetime,
             links=kwargs.get("links", []),
             source=response.url,
             **self.meeting_defaults,
         )
-
         meeting["status"] = self._get_status(meeting)
         meeting["id"] = self._get_id(meeting)
         yield meeting
-
-    def _parse_committee_meetings(self, response, start_date):
-        """Parse committee meetings from cells without strikethrough"""
-        committee_cells = response.css("table[style*='width:49'] td")
-        for time_cell, title_cell in grouper(2, committee_cells):
-            if len(time_cell.css("[style*='line-through']")) > 0:
-                continue
-            time_str = re.sub(
-                r"[\.\s]", "", " ".join(time_cell.css("*::text").extract())
-            )
-            if not re.search(r"\d{1,2}:\d{1,2}[apmAPM]{2}", time_str):
-                continue
-            start_time = datetime.strptime(time_str, "%I:%M%p").time()
-            title_str = " ".join(title_cell.css("*::text").extract()).strip()
-            meeting = Meeting(
-                title=title_str + " Committee",
-                start=datetime.combine(start_date, start_time),
-                links=[],
-                source=response.url,
-                **self.meeting_defaults,
-            )
-
-            meeting["status"] = self._get_status(meeting)
-            meeting["id"] = self._get_id(meeting)
-            yield meeting
