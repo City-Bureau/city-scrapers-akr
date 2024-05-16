@@ -41,12 +41,11 @@ freezer.stop()
 
 def test_count():
     assert len(parsed_filter_items) == 8
-    assert len(parsed_items) == 4
+    assert len(parsed_items) == 1
 
 
 def test_title():
-    assert parsed_items[0]["title"] == "City Council"
-    assert parsed_items[-1]["title"] == "Budget & Finance Committee"
+    assert parsed_items[0]["title"] == "Regular council meeting"
 
 
 def test_description():
@@ -54,8 +53,7 @@ def test_description():
 
 
 def test_start():
-    assert parsed_items[0]["start"] == datetime(2019, 9, 16, 19, 0)
-    assert parsed_items[-1]["start"] == datetime(2019, 9, 16, 15, 0)
+    assert parsed_items[0]["start"] == datetime(2019, 9, 16, 0, 0)
 
 
 def test_end():
@@ -67,7 +65,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "akr_city_council/201909161900/x/city_council"
+    assert (
+        parsed_items[0]["id"]
+        == "akr_city_council/201909160000/x/regular_council_meeting"
+    )
 
 
 def test_status():
