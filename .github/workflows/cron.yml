@@ -61,9 +61,38 @@ jobs:
         env:
           PIPENV_DEFAULT_PYTHON_VERSION: ${{ env.PYTHON_VERSION }}
 
+      - name: Setup HTTP proxy
+        run: |
+          echo "Installing and configuring HTTP proxy..."
+          sudo apt-get update -qq
+          sudo apt-get install -y squid
+
+          # Configure squid for open access
+          sudo tee /etc/squid/squid.conf << EOF
+          http_port 3128
+          http_access allow all
+          cache deny all
+          access_log none
+          cache_store_log none
+          cache_log /dev/null
+          EOF
+          
+          # Start squid
+          sudo systemctl start squid
+          sudo systemctl status squid --no-pager
+          
+          # Wait for squid to start
+          sleep 10
+
+          echo "HTTP proxy is running on port 3128"
+
       - name: Run scrapers
+        env:
+          HTTP_PROXY: http://127.0.0.1:3128
+          HTTPS_PROXY: http://127.0.0.1:3128
         run: |
           export PYTHONPATH=$(pwd):$PYTHONPATH
+          echo "Running scrapers with HTTP proxy..."
           ./.deploy.sh
 
       - name: Combine output feeds

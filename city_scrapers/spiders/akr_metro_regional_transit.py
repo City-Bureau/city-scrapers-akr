@@ -10,7 +10,7 @@ class AkrMetroRegionalTransitSpider(CityScrapersSpider):
     name = "akr_metro_regional_transit"
     agency = "METRO Regional Transit Authority"
     timezone = "America/Detroit"
-    start_urls = ["https://www.akronmetro.org/metro-board-meetings.aspx"]
+    start_urls = ["http://www.yourmetrobus.org/metro-board-meetings.aspx"]
     location = {
         "name": "Robert K. Pfaff Transit Center",
         "address": "631 S Broadway St, Akron, OH 44311",
