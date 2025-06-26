@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: "1 6 * * *"
   workflow_dispatch:
-  push:
-    branches:
-      - fix-spider-akr-metro-transit
 
 env:
   CI: true
