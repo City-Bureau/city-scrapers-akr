@@ -1,3 +1,4 @@
+import logging
 import re
 from datetime import datetime
 
@@ -5,6 +6,8 @@ from city_scrapers_core.constants import BOARD, COMMITTEE
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from scrapy import Selector
+
+logger = logging.getLogger(__name__)
 
 
 class AkrPublicSchoolsSpider(CityScrapersSpider):
@@ -126,7 +129,7 @@ class AkrPublicSchoolsSpider(CityScrapersSpider):
     def _validate_location(self, item):
         """Parse or generate location."""
         if "Main St" not in item.xpath("description/text()").extract_first():
-            raise ValueError("Meeting location has changed")
+            logger.warning("Meeting location has changed")
 
     def _parse_links(self, source):
         """Parse or generate links."""

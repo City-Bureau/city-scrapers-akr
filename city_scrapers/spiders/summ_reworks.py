@@ -1,9 +1,12 @@
+import logging
 import re
 from datetime import datetime
 
 from city_scrapers_core.constants import BOARD, COMMITTEE
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
+
+logger = logging.getLogger(__name__)
 
 
 class SummReworksSpider(CityScrapersSpider):
@@ -79,7 +82,8 @@ class SummReworksSpider(CityScrapersSpider):
             ),
         ).strip()
         if not addr_text:
-            raise ValueError("Meeting location could not be parsed")
+            logger.warning("Meeting location could not be parsed")
+            return self.location
         if "1867" in addr_text:
             return self.location
         return {"name": "", "address": addr_text}

@@ -1,3 +1,4 @@
+import logging
 import math
 import re
 from collections import defaultdict
@@ -10,6 +11,8 @@ from city_scrapers_core.spiders import CityScrapersSpider
 from pdfminer.high_level import extract_text_to_fp
 from pdfminer.layout import LAParams
 from scrapy import Selector
+
+logger = logging.getLogger(__name__)
 
 
 class SummPlanningSpider(CityScrapersSpider):
@@ -108,6 +111,6 @@ class SummPlanningSpider(CityScrapersSpider):
         return datetime.strptime(dt_str, "%B %d, %Y%I:%M %p")
 
     def _validate_location(self, text):
-        """Validate that location is present in text or raise an error."""
+        """Validate that location is present in text and log a warning if not."""
         if "Chambers" not in text:
-            raise ValueError("Meeting location has changed")
+            logger.warning("Meeting location has changed")
